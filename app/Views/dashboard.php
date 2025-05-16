@@ -24,6 +24,37 @@
     <div id="viewer3D" style="width: 80%; height: 80%; background: #000;"></div>
 </div>
 
+<!-- LEGENDA PETA -->
+<div id="legend" style="
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 1000;">
+    <strong>Legenda:</strong>
+    <!-- <div style="display: flex; align-items: center; margin-top: 5px;">
+        <div style="width: 15px; height: 15px; background: green; margin-right: 8px;"></div> Perangkat Aktif
+    </div>
+    <div style="display: flex; align-items: center; margin-top: 5px;">
+        <div style="width: 15px; height: 15px; background: gray; margin-right: 8px;"></div> Perangkat Mati
+    </div>
+    <div style="display: flex; align-items: center; margin-top: 5px;">
+        <div style="width: 15px; height: 15px; background: red; margin-right: 8px;"></div> Deteksi Bahaya
+    </div> -->
+    <div style="display: flex; align-items: center; margin-top: 5px;">
+        <img src="<?= base_url('aset/img/marker_biru.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Gedung
+    </div>
+    <div style="display: flex; align-items: center; margin-top: 5px;">
+        <img src="<?= base_url('aset/img/tower.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Menara
+    </div>
+</div>
+
+
+
 <!-- LIBRARY -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -57,7 +88,7 @@
         },
         {
             name: "Hotel Poliwangi",
-            coords: [-8.293274882825061, 114.30682170808706],
+            coords: [-8.293315250171206, 114.30665188041469],
             desain: "gedungB.glb"
         },
         {
@@ -74,14 +105,35 @@
             name: "Aula Poliwangi",
             coords: [-8.29546070879696, 114.30727612044645],
             desain: "aula_poliwangi7.glb"
+        },
+        {
+            name: "Menara Peringatan",
+            coords: [-8.293822242473611, 114.30650971355313],
+            // desain: "aula_poliwangi7.glb"
         }
     ];
 
     markers.forEach(marker => {
-        L.marker(marker.coords)
+        let icon = null;
+
+        if (marker.name === "Menara Peringatan") {
+            // Buat ikon khusus untuk Menara Peringatan
+            icon = L.icon({
+                iconUrl: '<?= base_url('aset/img/tower.png'); ?>  ', // ganti dengan ikon khusus kamu
+                iconSize: [32, 40],
+                iconAnchor: [16, 40],
+                popupAnchor: [0, -40]
+            });
+        }
+
+        L.marker(marker.coords, icon ? {
+                icon: icon
+            } : {})
             .addTo(map)
             .setZIndexOffset(1000)
-            .bindPopup(`<b>${marker.name}</b><br><button onclick="show3D('desain3d/${marker.desain}')">Lihat Gedung</button>`);
+            .bindPopup(`<b>${marker.name}</b><br>${
+            marker.desain ? `<button onclick="show3D('desain3d/${marker.desain}')">Lihat Gedung</button>` : ''
+        }`);
     });
 
     let renderer, scene, camera, loader, model, controls;

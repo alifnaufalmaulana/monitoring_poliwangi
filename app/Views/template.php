@@ -52,12 +52,20 @@
                             Dashboard
                         </a>
                         <a class="nav-link text-white" href="<?= base_url('gedung') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-building"></i></div>
                             Gedung
                         </a>
                         <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip"></i></div>
                             Perangkat
+                        </a>
+                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list"></i></div>
+                            Laporan
+                        </a>
+                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left"></i></div>
+                            Riwayat
                         </a>
                     </div>
                 </div>
@@ -65,20 +73,20 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
-                <div class="container-fluid px-4">
-                    <!-- Navbar Search-->
-                    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-2">
+                <div class="container-fluid px-4 py-2">
+                    <!-- Navbar Search -->
+                    <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-2">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                         </div>
-                    </form>
+                    </form> -->
                     <?php if ($page) {
                         echo view($page);
                     } ?>
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
+            <footer class=" bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Sistem Monitoring Kebencanaan</div>
