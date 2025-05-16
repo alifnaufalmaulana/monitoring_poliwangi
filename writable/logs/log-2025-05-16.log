@@ -19848,3 +19848,15 @@ CRITICAL - 2025-05-16 10:16:50 --> ErrorException: Allowed memory size of 536870
 [Method: GET, Route: perangkat]
 in APPPATH\Views\perangkat.php on line 1.
  1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-05-16 11:32:31 --> ErrorException: Allowed memory size of 536870912 bytes exhausted (tried to allocate 32768 bytes)
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 1.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-05-16 11:33:39 --> ErrorException: Allowed memory size of 536870912 bytes exhausted (tried to allocate 32768 bytes)
+[Method: GET, Route: perangkat]
+in APPPATH\Views\template.php on line 1.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-05-16 11:33:54 --> ErrorException: Allowed memory size of 536870912 bytes exhausted (tried to allocate 32768 bytes)
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 1.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()

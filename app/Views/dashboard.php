@@ -1,3 +1,5 @@
+<?= $this->extend('template') ?>
+<?= $this->section('content') ?>
 <!-- PETA -->
 <div id="map" style="width: 100%; height: 80vh;"></div>
 
@@ -38,18 +40,12 @@
     <strong>Legenda:</strong>
     <!-- <div style="display: flex; align-items: center; margin-top: 5px;">
         <div style="width: 15px; height: 15px; background: green; margin-right: 8px;"></div> Perangkat Aktif
-    </div>
-    <div style="display: flex; align-items: center; margin-top: 5px;">
-        <div style="width: 15px; height: 15px; background: gray; margin-right: 8px;"></div> Perangkat Mati
-    </div>
-    <div style="display: flex; align-items: center; margin-top: 5px;">
-        <div style="width: 15px; height: 15px; background: red; margin-right: 8px;"></div> Deteksi Bahaya
     </div> -->
     <div style="display: flex; align-items: center; margin-top: 5px;">
         <img src="<?= base_url('aset/img/marker_biru.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Gedung
     </div>
     <div style="display: flex; align-items: center; margin-top: 5px;">
-        <img src="<?= base_url('aset/img/tower.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Menara
+        <img src="<?= base_url('aset/img/ic_tower.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Menara
     </div>
 </div>
 
@@ -119,7 +115,7 @@
         if (marker.name === "Menara Peringatan") {
             // Buat ikon khusus untuk Menara Peringatan
             icon = L.icon({
-                iconUrl: '<?= base_url('aset/img/tower.png'); ?>  ', // ganti dengan ikon khusus kamu
+                iconUrl: '<?= base_url('aset/img/ic_tower.png'); ?>  ', // ganti dengan ikon khusus kamu
                 iconSize: [32, 40],
                 iconAnchor: [16, 40],
                 popupAnchor: [0, -40]
@@ -266,3 +262,4 @@
         animateLabelUpdates.length = 0;
     }
 </script>
+<?= $this->endSection() ?>

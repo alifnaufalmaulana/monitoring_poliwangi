@@ -8,8 +8,7 @@ class Home extends BaseController
     {
         $data = [
             'judul' => 'Dashboard',
-            'page' => 'dashboard',
         ];
-        return view('template', $data);
+        return view('dashboard', $data);
     }
 }

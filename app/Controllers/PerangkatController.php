@@ -3,12 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\PerangkatModel;
 
 class PerangkatController extends BaseController
 {
-    public function index(): string
+    public function index()
     {
         $model = new PerangkatModel();
         $dataPerangkat = $model
@@ -20,10 +19,9 @@ class PerangkatController extends BaseController
 
         $data = [
             'judul' => 'Data Perangkat',
-            'page' => 'perangkat',
             'perangkat' => $dataPerangkat,
         ];
-
-        return view('template', $data);
+        
+        return view('perangkat', $data);
     }
 }

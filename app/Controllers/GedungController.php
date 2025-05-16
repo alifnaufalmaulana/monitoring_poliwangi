@@ -17,10 +17,9 @@ class GedungController extends BaseController
 
         $data = [
             'judul' => 'Data Gedung',
-            'page' => 'gedung',
             'gedung' => $dataGedung,
         ];
 
-        return view('template', $data);
+        return view('gedung', $data);
     }
 }

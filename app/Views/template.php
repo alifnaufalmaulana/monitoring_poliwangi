@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>GIS | <?= $judul ?></title>
+    <title>GIS | <?= esc($judul ?? '') ?></title>
     <link href="<?= base_url('sb-admin') ?>/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -45,8 +45,6 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark bg-primary" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <!-- <hr class="border border-white border-2"> -->
-                        <!-- <div class="sb-sidenav-menu-heading">Core</div> -->
                         <a class="nav-link text-white" href="<?= base_url('home') ?>">
                             <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt"></i></div>
                             Dashboard
@@ -59,11 +57,11 @@
                             <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip"></i></div>
                             Perangkat
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
+                        <a class="nav-link text-white" href="<?= base_url('laporan') ?>">
                             <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list"></i></div>
                             Laporan
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
+                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>">
                             <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left"></i></div>
                             Riwayat
                         </a>
@@ -74,16 +72,7 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4 py-2">
-                    <!-- Navbar Search -->
-                    <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-2">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                        </div>
-                    </form> -->
-                    <?php if ($page) {
-                        echo view($page);
-                    } ?>
+                    <?= $this->renderSection('content') ?>
                 </div>
             </main>
             <footer class=" bg-light mt-auto">
