@@ -1,0 +1,670 @@
+CRITICAL - 2025-05-20 11:09:58 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "laporan/index.php"
+[Method: GET, Route: laporan]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('laporan/index.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan/index', [], true)
+ 3 APPPATH\Controllers\LaporanController.php(21): view('laporan/index', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-05-20 11:24:00 --> mysqli_sql_exception: Unknown column 'waktu' in 'order clause' in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `laporan...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\LaporanController.php(17): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2025-05-20 11:24:00 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'waktu' in 'order clause'
+[Method: GET, Route: laporan]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\LaporanController.php(17): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:24:00 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'waktu' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\LaporanController.php(17): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:24:00 --> [Caused by] mysqli_sql_exception: Unknown column 'waktu' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*
+FROM `laporan`
+ORDER BY `waktu` DESC', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\LaporanController.php(17): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:24:53 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "laporan/index.php"
+[Method: GET, Route: laporan]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('laporan/index.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan/index', [], true)
+ 3 APPPATH\Controllers\LaporanController.php(24): view('laporan/index', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-05-20 11:56:03 --> mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`)) in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `la...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `la...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `la...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `la...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(839): CodeIgniter\Model->doInsert(Array)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(800): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(750): CodeIgniter\Model->insert(Array, false)
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save(Array)
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2025-05-20 11:56:03 --> CodeIgniter\Database\Exceptions\DatabaseException: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`))
+[Method: POST, Route: laporan/store]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (:id_kebencanaan:, :nama_bencana:, :deskripsi:, :status_bencana:)', [...], false)
+ 2 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(750): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:56:03 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`))
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (:id_kebencanaan:, :nama_bencana:, :deskripsi:, :status_bencana:)', [...], false)
+ 4 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], false)
+ 7 SYSTEMPATH\BaseModel.php(750): CodeIgniter\Model->insert([...], false)
+ 8 APPPATH\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save([...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:56:03 --> [Caused by] mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`))
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (:id_kebencanaan:, :nama_bencana:, :deskripsi:, :status_bencana:)', [...], false)
+ 5 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], false)
+ 8 SYSTEMPATH\BaseModel.php(750): CodeIgniter\Model->insert([...], false)
+ 9 APPPATH\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save([...])
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-05-20 11:56:13 --> mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`)) in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `la...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `la...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `la...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `la...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(839): CodeIgniter\Model->doInsert(Array)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(800): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(750): CodeIgniter\Model->insert(Array, false)
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save(Array)
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2025-05-20 11:56:13 --> CodeIgniter\Database\Exceptions\DatabaseException: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`))
+[Method: POST, Route: laporan/store]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (:id_kebencanaan:, :nama_bencana:, :deskripsi:, :status_bencana:)', [...], false)
+ 2 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(750): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:56:13 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`))
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (:id_kebencanaan:, :nama_bencana:, :deskripsi:, :status_bencana:)', [...], false)
+ 4 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], false)
+ 7 SYSTEMPATH\BaseModel.php(750): CodeIgniter\Model->insert([...], false)
+ 8 APPPATH\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save([...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 11:56:13 --> [Caused by] mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`monitor_bencana`.`laporan`, CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`id_kebencanaan`) REFERENCES `kebencanaan` (`id_kebencanaan`))
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (\'123\', \'we\', \'ee\', \'Aman\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `laporan` (`id_kebencanaan`, `nama_bencana`, `deskripsi`, `status_bencana`) VALUES (:id_kebencanaan:, :nama_bencana:, :deskripsi:, :status_bencana:)', [...], false)
+ 5 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], false)
+ 8 SYSTEMPATH\BaseModel.php(750): CodeIgniter\Model->insert([...], false)
+ 9 APPPATH\Controllers\LaporanController.php(81): CodeIgniter\BaseModel->save([...])
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->store()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:50:29 --> ErrorException: Undefined variable $daftar_kebencanaan
+[Method: GET, Route: laporan]
+in APPPATH\Views\laporan.php on line 25.
+ 1 APPPATH\Views\laporan.php(25): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $daftar_kebencanaan', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php', 25)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan', [], true)
+ 5 APPPATH\Controllers\LaporanController.php(52): view('laporan', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:54:57 --> ErrorException: Undefined variable $daftar_kebencanaan
+[Method: GET, Route: laporan]
+in APPPATH\Views\laporan.php on line 25.
+ 1 APPPATH\Views\laporan.php(25): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $daftar_kebencanaan', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php', 25)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan', [], true)
+ 5 APPPATH\Controllers\LaporanController.php(52): view('laporan', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-05-20 12:57:26 --> mysqli_sql_exception: Unknown column 'kebencanaan.nama_bencana' in 'field list' in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `laporan...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2025-05-20 12:57:26 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'kebencanaan.nama_bencana' in 'field list'
+[Method: GET, Route: laporan]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:57:26 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'kebencanaan.nama_bencana' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:57:26 --> [Caused by] mysqli_sql_exception: Unknown column 'kebencanaan.nama_bencana' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-05-20 12:58:02 --> mysqli_sql_exception: Unknown column 'kebencanaan.nama_bencana' in 'field list' in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `laporan...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2025-05-20 12:58:02 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'kebencanaan.nama_bencana' in 'field list'
+[Method: GET, Route: laporan]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:58:02 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'kebencanaan.nama_bencana' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:58:02 --> [Caused by] mysqli_sql_exception: Unknown column 'kebencanaan.nama_bencana' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `laporan`.*, `kebencanaan`.`nama_bencana`
+FROM `laporan`
+JOIN `kebencanaan` ON `kebencanaan`.`id_kebencanaan` = `laporan`.`id_kebencanaan`', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\LaporanController.php(53): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 12:58:19 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "laporan/index.php"
+[Method: GET, Route: laporan]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('laporan/index.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan/index', [], true)
+ 3 APPPATH\Controllers\LaporanController.php(58): view('laporan/index', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 13:36:20 --> ErrorException: Undefined variable $daftar_kebencanaan
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 31.
+ 1 APPPATH\Views\perangkat.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $daftar_kebencanaan', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 31)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(25): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 13:38:31 --> Error: Class "App\Models\RuanganModel" not found
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 120.
+ 1 APPPATH\Controllers\PerangkatController.php(31): App\Controllers\PerangkatController->getDaftarRuangan()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 13:40:13 --> Error: Class "App\Models\RuanganModel" not found
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 120.
+ 1 APPPATH\Controllers\PerangkatController.php(31): App\Controllers\PerangkatController->getDaftarRuangan()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 13:40:32 --> Error: Class "App\Models\RuanganModel" not found
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 121.
+ 1 APPPATH\Controllers\PerangkatController.php(32): App\Controllers\PerangkatController->getDaftarRuangan()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 13:40:54 --> Error: Call to undefined method App\Controllers\PerangkatController::getDaftarRuangan()
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 32.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 13:41:38 --> ErrorException: Undefined variable $daftar_ruangan
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 31.
+ 1 APPPATH\Views\perangkat.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $daftar_ruangan', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 31)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(34): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-20 13:46:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-20 13:55:38 --> ErrorException: Undefined variable $daftar_ruangan
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 31.
+ 1 APPPATH\Views\perangkat.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $daftar_ruangan', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 31)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(40): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:03:03 --> Error: Call to undefined method App\Controllers\PerangkatController::getDaftarRuangan()
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 35.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:03:10 --> ErrorException: Undefined variable $gedung
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 28.
+ 1 APPPATH\Views\perangkat.php(28): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $gedung', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 28)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(37): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:04:43 --> ErrorException: Undefined variable $dataGedung
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 34.
+ 1 APPPATH\Controllers\PerangkatController.php(34): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $dataGedung', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Controllers\\PerangkatController.php', 34)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:05:30 --> ErrorException: Undefined variable $dataGedung
+[Method: GET, Route: perangkat]
+in APPPATH\Controllers\PerangkatController.php on line 34.
+ 1 APPPATH\Controllers\PerangkatController.php(34): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $dataGedung', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Controllers\\PerangkatController.php', 34)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:07:48 --> ErrorException: Undefined array key "id_gedung"
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 29.
+ 1 APPPATH\Views\perangkat.php(29): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id_gedung"', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 29)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(36): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:14:07 --> ErrorException: Undefined array key "id_gedung"
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 29.
+ 1 APPPATH\Views\perangkat.php(29): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id_gedung"', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 29)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(36): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:14:10 --> ErrorException: Undefined array key "id_gedung"
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 29.
+ 1 APPPATH\Views\perangkat.php(29): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id_gedung"', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 29)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(36): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-05-20 14:36:18 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `pe...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `pe...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `pe...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `pe...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(839): CodeIgniter\Model->doInsert(Array)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(800): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\PerangkatController.php(65): CodeIgniter\Model->insert(Array)
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\PerangkatController->simpan()
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-05-20 14:36:18 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'created_at' in 'field list'
+[Method: POST, Route: perangkat/simpan]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (:nama_perangkat:, :id_ruangan:, :jenis_perangkat:, :latitude:, :longitude:, :update_at:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\PerangkatController.php(65): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->simpan()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:36:18 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (\'sensor3\', \'1\', \'sensor\', NULL, NULL, \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (\'sensor3\', \'1\', \'sensor\', NULL, NULL, \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (:nama_perangkat:, :id_ruangan:, :jenis_perangkat:, :latitude:, :longitude:, :update_at:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\PerangkatController.php(65): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->simpan()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-20 14:36:18 --> [Caused by] mysqli_sql_exception: Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (\'sensor3\', \'1\', \'sensor\', NULL, NULL, \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (\'sensor3\', \'1\', \'sensor\', NULL, NULL, \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (\'sensor3\', \'1\', \'sensor\', NULL, NULL, \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\', \'2025-05-20 14:36:18\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `perangkat` (`nama_perangkat`, `id_ruangan`, `jenis_perangkat`, `latitude`, `longitude`, `update_at`, `created_at`, `updated_at`) VALUES (:nama_perangkat:, :id_ruangan:, :jenis_perangkat:, :latitude:, :longitude:, :update_at:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(839): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\PerangkatController.php(65): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->simpan()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-20 14:36:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:37:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-20 14:39:38 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "perangkat_edit.php"
+[Method: GET, Route: perangkat/edit/2]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('perangkat_edit.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat_edit', [], true)
+ 3 APPPATH\Controllers\PerangkatController.php(84): view('perangkat_edit', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->edit('2')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-20 14:41:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:41:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:41:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:42:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:42:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:43:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:43:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:43:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-20 14:43:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

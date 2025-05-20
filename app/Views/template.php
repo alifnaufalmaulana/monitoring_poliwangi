@@ -19,12 +19,14 @@
 
 <body>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3 fs-4" href="<?= base_url('home') ?>">Sistem Monitoring</a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-sm text-white order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
+        <button class="btn btn-lg text-white order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button>
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-2 fs-4 d-flex align-items-center" href="<?= base_url('home') ?>">
+            POLIWANGI EARLY WARNING SYSTEM <img src="<?= base_url('aset/img/logo-poliwangi.png') ?>" alt="Logo" style="height: 45px;" class="me-2 ps-2 ">
+        </a>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto me-lg-4">
             <li class="nav-item dropdown">

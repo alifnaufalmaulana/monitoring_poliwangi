@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PerangkatModel extends Model
+class LantaiModel extends Model
 {
-    protected $table            = 'perangkat';
-    protected $primaryKey       = 'id_perangkat';
+    protected $table            = 'lantai';
+    protected $primaryKey       = 'id_lantai';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['nama_perangkat', 'id_ruangan', 'jenis_perangkat', 'latitude', 'longitude', 'update_at'];
+    protected $allowedFields    = ['nama_lantai', 'id_lantai',];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
@@ -21,10 +21,10 @@ class PerangkatModel extends Model
     // protected array $castHandlers = [];
 
     // // Dates
-    // protected $useTimestamps = true;
+    // protected $useTimestamps = false;
+    // protected $dateFormat    = 'datetime';
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
-    // protected $dateFormat    = 'datetime';
     // protected $deletedField  = 'deleted_at';
 
     // // Validation
