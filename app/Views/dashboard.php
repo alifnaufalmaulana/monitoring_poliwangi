@@ -95,12 +95,12 @@
         {
             name: "Perpustakaan Poliwangi",
             coords: [-8.295537691873253, 114.30674387841817],
-            desain: "gedungD.glb"
+            desain: "perpus_poliwangi.glb"
         },
         {
             name: "Aula Poliwangi",
             coords: [-8.29546070879696, 114.30727612044645],
-            desain: "aula_poliwangi7.glb"
+            desain: "aula_poliwangi8.glb"
         },
         {
             name: "Menara Peringatan",
@@ -195,7 +195,11 @@
                 status: "Hidup"
             },
             {
-                indeks_3d: "r_aula3",
+                indeks_3d: "r_perpus2",
+                status: "Hidup"
+            },
+            {
+                indeks_3d: "r_aula1",
                 status: "Bahaya"
             }
         ];
