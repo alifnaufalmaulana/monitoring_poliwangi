@@ -1,0 +1,30 @@
+CRITICAL - 2025-05-28 03:28:50 --> ErrorException: Undefined variable $gedung
+[Method: GET, Route: home]
+in APPPATH\Views\dashboard4.php on line 66.
+ 1 APPPATH\Views\dashboard4.php(66): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $gedung', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\dashboard4.php', 66)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\dashboard4.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('dashboard4', [], true)
+ 5 APPPATH\Controllers\Home.php(12): view('dashboard4', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-28 03:55:32 --> CodeIgniter\Router\Exceptions\RouterException: The namespace delimiter is a backslash (\), not a slash (/). Route handler: "\App\Controllers\API/ApiController::getLantaiByGedung/$1"
+[Method: GET, Route: api/lantai/1]
+in SYSTEMPATH\Router\Router.php on line 494.
+ 1 SYSTEMPATH\Router\Router.php(494): CodeIgniter\Router\Exceptions\RouterException::forInvalidControllerName('\\App\\Controllers\\API/ApiController::getLantaiByGedung/$1')
+ 2 SYSTEMPATH\Router\Router.php(213): CodeIgniter\Router\Router->checkRoutes('api/lantai/1')
+ 3 SYSTEMPATH\CodeIgniter.php(832): CodeIgniter\Router\Router->handle('api/lantai/1')
+ 4 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-28 06:56:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-28 07:21:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-28 07:25:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-28 07:29:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-28 07:46:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

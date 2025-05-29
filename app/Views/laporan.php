@@ -13,7 +13,6 @@
                     <i class="fas fa-plus"></i> Tambah Laporan
                 </button>
             </div>
-
             <!-- Form Tambah Laporan (sembunyi secara default) -->
             <div id="formLaporan" class="mb-4" style="display: none;">
                 <form action="<?= base_url('laporan/simpan') ?>" method="post">
@@ -54,7 +53,7 @@
                     <table class="table table-striped table-bordered">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col">No</th>
                                 <th scope="col">Nama Bencana</th>
                                 <th scope="col">Deskripsi</th>
                                 <th scope="col">Status</th>

@@ -118,18 +118,6 @@ class PerangkatController extends BaseController
         return redirect()->to('/perangkat')->with('success', 'Data perangkat berhasil dihapus.');
     }
 
-
-    // Contoh fungsi untuk ambil daftar ruangan (jika mau pakai)
-    // private function getDaftarRuangan()
-    // {
-    //     // misal pakai model RuanganModel, contoh dummy:
-    //     $ruanganModel = new \App\Models\RuanganModel();
-    //     return $ruanganModel->findAll();
-    // }
-
-    // Mendapatkan data lantai berdasarkan id_gedung
-    // PerangkatController.php
-
     public function getLantai($idGedung)
     {
         $lantaiModel = new \App\Models\LantaiModel();

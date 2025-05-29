@@ -8,6 +8,9 @@ use CodeIgniter\Router\RouteCollection;
 
 // $routes->setAutoRoute(true);
 
+$routes->get('/api/gedung', 'API\ApiController::getGedung');
+$routes->get('/api/lantai/(:num)', 'API\ApiController::getLantaiByGedung/$1');
+
 $routes->get('home', 'Home::index');
 $routes->get('perangkat', 'PerangkatController::index');
 $routes->get('gedung', 'GedungController::index');

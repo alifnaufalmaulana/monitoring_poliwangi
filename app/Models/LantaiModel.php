@@ -12,7 +12,7 @@ class LantaiModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['nama_lantai', 'id_lantai',];
+    protected $allowedFields    = ['nama_lantai', 'id_gedung', 'denah',];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
