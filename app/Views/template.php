@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>GIS | <?= esc($judul ?? '') ?></title>
+    <title>PEWS | <?= esc($judul ?? '') ?></title>
     <link href="<?= base_url('sb-admin') ?>/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -66,24 +66,24 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark bg-primary" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link text-white" href="<?= base_url('home') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('home') ?>" style="font-size: 1.5em;">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt" style="font-size: 1.5em;"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('gedung') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-building"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('gedung') ?>" style="font-size: 1.5em;">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-building" style="font-size: 1.5em;"></i></div>
                             Gedung
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>" style="font-size: 1.5em;">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip" style="font-size: 1.5em;"></i></div>
                             Perangkat
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('laporan') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('laporan') ?>" style="font-size: 1.5em;">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list" style="font-size: 1.5em;"></i></div>
                             Laporan
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>" style="font-size: 1.5em;">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left" style="font-size: 1.5em;"></i></div>
                             Riwayat
                         </a>
                     </div>
