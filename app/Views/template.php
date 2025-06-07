@@ -51,11 +51,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw text-white"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li>
+                    <!-- <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li> -->
+                    <!-- <li>
                         <hr class="dropdown-divider" />
-                    </li>
+                    </li> -->
                     <li><a class="dropdown-item" href="#!">Login</a></li>
                 </ul>
             </li>
@@ -66,24 +66,24 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark bg-primary" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link text-white" href="<?= base_url('home') ?>" style="font-size: 1.5em;">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt" style="font-size: 1.5em;"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('home') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('gedung') ?>" style="font-size: 1.5em;">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-building" style="font-size: 1.5em;"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('gedung') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-building"></i></div>
                             Gedung
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>" style="font-size: 1.5em;">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip" style="font-size: 1.5em;"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip"></i></div>
                             Perangkat
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('laporan') ?>" style="font-size: 1.5em;">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list" style="font-size: 1.5em;"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('laporan') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list"></i></div>
                             Laporan
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>" style="font-size: 1.5em;">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left" style="font-size: 1.5em;"></i></div>
+                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>">
+                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left"></i></div>
                             Riwayat
                         </a>
                     </div>
