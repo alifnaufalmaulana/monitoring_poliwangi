@@ -18,22 +18,6 @@
     <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
-    <!-- <script>
-        let map; // buat global agar bisa diakses dari dashboard.php
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: {
-                    lat: -8.294,
-                    lng: 114.306
-                }, // Koordinat tengah Poliwangi
-                zoom: 17,
-                mapTypeId: 'satellite'
-            });
-        }
-    </script> -->
-
-
 </head>
 
 <body>
@@ -51,12 +35,14 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw text-white"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <!-- <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li> -->
-                    <!-- <li>
-                        <hr class="dropdown-divider" />
-                    </li> -->
-                    <li><a class="dropdown-item" href="#!">Login</a></li>
+                    <li>
+                        <a class="dropdown-item" href="#!">
+                            <i class="fa fa-sign-in"></i> Login
+                        </a>
+                        <button onclick="enableAudio()" class="dropdown-item">
+                            <i class="fa fa-volume-up"></i> Notifikasi
+                        </button>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -111,6 +97,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<?= base_url('sb-admin') ?>/js/scripts.js"></script>
 </body>
 

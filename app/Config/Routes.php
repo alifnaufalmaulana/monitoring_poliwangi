@@ -10,6 +10,8 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/api/gedung', 'API\ApiController::getGedung');
 $routes->get('/api/lantai/(:num)', 'API\ApiController::getLantaiByGedung/$1');
+$routes->get('api/perangkat/lantai/(:num)', 'API\ApiController::getPerangkatByLantai/$1');
+
 
 $routes->get('home', 'Home::index');
 $routes->get('perangkat', 'PerangkatController::index');
@@ -28,5 +30,7 @@ $routes->post('/perangkat/simpan', 'PerangkatController::simpan');
 $routes->get('/perangkat/edit/(:segment)', 'PerangkatController::edit/$1');
 $routes->post('/perangkat/update/(:segment)', 'PerangkatController::update/$1');
 $routes->get('/perangkat/hapus/(:segment)', 'PerangkatController::hapus/$1');
-$routes->get('perangkat/getLantai/(:num)', 'PerangkatController::getLantai/$1');
-$routes->get('perangkat/getRuangan/(:num)', 'PerangkatController::getRuangan/$1');
+$routes->get('/perangkat/getLantai/(:num)', 'PerangkatController::getLantai/$1');
+$routes->get('/perangkat/getRuangan/(:num)', 'PerangkatController::getRuangan/$1');
+$routes->get('perangkat/getDenah/(:num)', 'PerangkatController::getDenah/$1');
+$routes->get('perangkat/lantai/(:num)', 'PerangkatController::getPerangkatByLantai/$1');

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PerangkatModel extends Model
+class RiwayatModel extends Model
 {
-    protected $table            = 'perangkat';
-    protected $primaryKey       = 'id_perangkat';
+    protected $table            = 'riwayat_perangkat';
+    protected $primaryKey       = 'id_riwayat';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['nama_perangkat', 'id_ruangan', 'jenis_perangkat', 'latitude', 'longitude', 'update_at', 'pos_x', 'pos_y',];
+    protected $allowedFields    = ['id_perangkat', 'status_perangkat', 'aksi', 'waktu',];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <!-- PETA UTAMA -->
-<div id="map" style="width: 100%; height: 80vh;"></div>
+<div id="map" style="width: 100%; height: 85vh;"></div>
 
 <!-- MODAL DENAH 2D -->
 <div id="modal2D" style="
@@ -25,17 +25,54 @@
         padding: 10px;
         cursor: pointer;
         z-index: 10000;">❌</button>
-    <div id="floorplanContainer" style="width: 80%; height: 80%; background: white; position: relative;">
-        <!-- Denah 2D akan dimuat di sini -->
-        <img id="floorplanImage" src="" alt="Denah Gedung" style="width: 100%; height: 100%; object-fit: contain;" />
-        <div id="markersOnFloorplan" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+    <div style="width: 80%; height: 80%; background: white; position: relative; padding: 10px;">
+        <h3 id="modalTitle">Denah Gedung</h3>
+
+        <!-- Dropdown Lantai -->
+        <select id="selectLantai" style="margin-bottom: 10px; width: 200px;">
+            <option value="">Pilih Lantai</option>
+        </select>
+
+        <!-- Container Denah -->
+        <div id="floorplanContainer" style="width: 100%; height: calc(100% - 80px); position: relative; border: 1px solid #ccc;">
+            <img id="floorplanImage" src="" alt="Denah Gedung" style="width: 100%; height: 100%; object-fit: contain;" />
+            <div id="markersOnFloorplan" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+        </div>
     </div>
 </div>
+
+<!-- MODAL TOWER -->
+<div id="modalTower" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+">
+    <button onclick="closeTower()" style="
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: white;
+        border: none;
+        font-size: 20px;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 10000;">❌</button>
+    <div style="width: 70%; background: white; padding: 20px; text-align: center; border-radius: 10px;">
+        <h3 id="towerTitle">Menara</h3>
+        <img id="towerImage" src="" alt="Foto Menara" style="max-width: 100%; max-height: 70vh; object-fit: contain; border: 1px solid #ccc; border-radius: 10px;">
+    </div>
+</div>
+
 
 <!-- LEGENDA PETA -->
 <div id="legend" style="
         position: absolute;
-        bottom: 80px;
+        bottom: 50px;
         left: 30px; 
         background: rgba(255, 255, 255, 0.9);
         padding: 10px 15px;
@@ -52,141 +89,274 @@
     </div>
 </div>
 
+<!-- Audio notifikasi -->
+<!-- <audio id="notif-audio" src="<?= base_url('aset/alarm/alarm1.mp3') ?>" preload="auto"></audio> -->
+<audio id="notif-audio" src="<?= base_url('aset/alarm/alarm1.mp3') ?>" loop></audio>
+
+<!-- Tombol aktivasi audio agar bisa diputar -->
+<!-- <button onclick="enableAudio()">Aktifkan Notifikasi Audio</button> -->
+
 <!-- LIBRARY -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-
 <script>
-    const map = L.map('map').setView([-8.294014625833483, 114.30673598813148], 17);
+    // Pastikan baseURL sudah didefinisikan di template induk atau disini:
+    const baseURL = '<?= base_url(); ?>/';
 
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles © Esri'
+    // Data gedung dari controller ke view
+    const gedungMarkers = <?= json_encode($gedung) ?>;
+
+    const map = L.map('map').setView([-8.294, 114.3067], 17);
+
+    L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: 'Google',
     }).addTo(map);
 
-    const markers = [{
-            name: "Gedung Prabu Tawangalun",
-            coords: [-8.294371437514862, 114.30567584508485],
-            floorplan: "aula_poliwangi.png",
-            devices: [{
-                    name: "Sensor Aula 1",
-                    xPercent: 10,
-                    yPercent: 55,
-                    status: "Hidup"
-                },
-                {
-                    name: "Sensor Aula 2",
-                    xPercent: 50,
-                    yPercent: 60,
-                    status: "Bahaya"
-                },
-            ]
-        },
-        {
-            name: "Hotel Poliwangi",
-            coords: [-8.293315250171206, 114.30665188041469],
-            floorplan: "denah_gedungB.png",
-            devices: [{
-                name: "Sensor Lobby",
-                xPercent: 30,
-                yPercent: 30,
-                status: "Mati"
-            }, ]
-        },
-        {
-            name: "Gedung Kuliah Terpadu",
-            coords: [-8.292446616676521, 114.3057493479127],
-            floorplan: "denah_gedungC.png",
-            devices: []
-        },
-        {
-            name: "Perpustakaan Poliwangi",
-            coords: [-8.295537691873253, 114.30674387841817],
-            floorplan: "denah_perpus_poliwangi.png",
-            devices: []
-        },
-        {
-            name: "Aula Poliwangi",
-            coords: [-8.29546070879696, 114.30727612044645],
-            floorplan: "aula_poliwangi.png",
-            devices: []
-        },
-        {
-            name: "Menara Peringatan",
-            coords: [-8.293822242473611, 114.30650971355313],
-            floorplan: null // tidak punya denah
+    gedungMarkers.forEach(g => {
+        let iconUrl = '<?= base_url('aset/img/marker_biru.png'); ?>';
+        if (g.tipe === 'menara') {
+            iconUrl = '<?= base_url('aset/img/ic_tower.png'); ?>';
         }
-    ];
 
-    markers.forEach(marker => {
-        let icon = null;
-        if (marker.name === "Menara Peringatan") {
-            icon = L.icon({
-                iconUrl: '<?= base_url('aset/img/ic_tower.png'); ?>',
-                iconSize: [32, 40],
-                iconAnchor: [16, 40],
-                popupAnchor: [0, -40]
-            });
-        } else {
-            icon = L.icon({
-                iconUrl: '<?= base_url('aset/img/marker_biru.png'); ?>',
-                iconSize: [25, 30],
+        const marker = L.marker([parseFloat(g.latitude), parseFloat(g.longitude)], {
+            icon: L.icon({
+                iconUrl: iconUrl,
+                iconSize: [30, 30],
                 iconAnchor: [12, 30],
                 popupAnchor: [0, -30]
+            })
+        }).addTo(map);
+
+        // Pastikan g.denah berisi nama file gambar, misalnya "2.jpg"
+        if (g.tipe === 'menara') {
+            marker.bindPopup(
+                `<b>${g.nama_gedung}</b><br>
+             <button onclick="lihatTower(${g.id_gedung}, '${g.nama_gedung}', '${g.denah}')">Lihat Menara</button>`
+            );
+        } else {
+            marker.bindPopup(
+                `<b>${g.nama_gedung}</b><br>
+             <button onclick="showDenah(${g.id_gedung}, '${g.nama_gedung}')">Lihat Denah</button>`
+            );
+        }
+    });
+
+
+    // Modal dan denah
+    const modal = document.getElementById('modal2D');
+    const floorplanImage = document.getElementById('floorplanImage');
+    const markersOnFloorplan = document.getElementById('markersOnFloorplan');
+    const selectLantai = document.getElementById('selectLantai');
+    const modalTitle = document.getElementById('modalTitle');
+
+    let currentGedungId = null;
+    let lantaiData = [];
+    let dangerAudio = null; // Variabel untuk menyimpan referensi audio agar bisa diakses secara global
+
+    function showDenah(gedungId, gedungName) {
+        currentGedungId = gedungId;
+        modalTitle.textContent = `Denah Gedung: ${gedungName}`;
+        floorplanImage.src = '';
+        markersOnFloorplan.innerHTML = '';
+        selectLantai.innerHTML = '<option value="">Pilih Lantai</option>';
+
+        modal.style.display = 'flex';
+
+        fetch(`${baseURL}api/lantai/${gedungId}`)
+            .then(response => response.json())
+            .then(data => {
+                lantaiData = data;
+                if (data.length === 0) {
+                    alert('Data lantai tidak ditemukan untuk gedung ini.');
+                    return;
+                }
+                data.forEach(l => {
+                    const option = document.createElement('option');
+                    option.value = l.id_lantai;
+                    option.textContent = l.nama_lantai;
+                    selectLantai.appendChild(option);
+                });
+
+                // Pilih lantai pertama otomatis
+                selectLantai.value = data[0].id_lantai;
+                selectLantai.dispatchEvent(new Event('change'));
+            })
+            .catch(() => {
+                alert('Gagal mengambil data lantai.');
+            });
+    }
+
+
+    // Saat lantai dipilih, tampilkan gambar denahnya
+    selectLantai.addEventListener('change', function() {
+        const lantaiId = this.value;
+        if (!lantaiId) {
+            floorplanImage.src = '';
+            markersOnFloorplan.innerHTML = '';
+            return;
+        }
+        const lantai = lantaiData.find(l => l.id_lantai == lantaiId); // pakai id_lantai
+        if (!lantai) return;
+
+        // Set gambar denah lantai
+        floorplanImage.src = '<?= base_url('aset/denah/'); ?>' + lantai.denah; // pakai denah sesuai model
+        markersOnFloorplan.innerHTML = '';
+
+        // Ambil data perangkat untuk lantai ini
+        fetch(`${baseURL}api/perangkat/lantai/${lantaiId}`)
+            .then(res => res.json())
+            .then(perangkat => {
+                perangkat.forEach(p => {
+                    const marker = document.createElement('div');
+                    marker.style.position = 'absolute';
+                    marker.style.width = '14px';
+                    marker.style.height = '14px';
+                    marker.style.borderRadius = '50%';
+                    marker.style.left = `${p.pos_x}%`;
+                    marker.style.top = `${p.pos_y}%`;
+                    marker.title = p.nama_perangkat;
+
+                    // ⬇️ Tambahkan warna dinamis berdasarkan status
+                    if (p.status_perangkat === 'aktif') {
+                        marker.style.backgroundColor = 'green';
+                    } else if (p.status_perangkat === 'mati') {
+                        marker.style.backgroundColor = 'gray';
+                    } else if (p.status_perangkat === 'bahaya') {
+                        marker.style.backgroundColor = 'red';
+                    } else {
+                        marker.style.backgroundColor = 'black'; // fallback
+                    }
+
+                    markersOnFloorplan.appendChild(marker);
+                });
+
+            })
+            .catch(err => {
+                console.error("Gagal ambil data perangkat:", err);
+            });
+    });
+
+    function close2D() {
+        modal.style.display = 'none';
+        floorplanImage.src = '';
+        markersOnFloorplan.innerHTML = '';
+        selectLantai.innerHTML = '<option value="">Pilih Lantai</option>';
+    }
+
+    function lihatTower(id, nama, denah) {
+        document.getElementById('towerTitle').textContent = `Menara: ${nama}`;
+
+        // Gunakan nama file gambar dari parameter `denah`
+        const imagePath = '<?= base_url('aset/denah/'); ?>' + denah;
+
+        const towerImage = document.getElementById('towerImage');
+        towerImage.src = imagePath;
+
+        // Tampilkan modal
+        document.getElementById('modalTower').style.display = 'flex';
+    }
+
+
+    function closeTower() {
+        document.getElementById('modalTower').style.display = 'none';
+        document.getElementById('towerImage').src = '';
+    }
+
+    // const ws = new WebSocket("ws://localhost:8080");
+
+    // ws.onmessage = function(event) {
+    //     const data = JSON.parse(event.data);
+
+    //     if (data.status_perangkat === 'bahaya') {
+    //         Swal.fire({
+    //             title: '🚨 PERINGATAN BAHAYA!',
+    //             html: `<strong>Jenis Bencana:</strong> ${data.jenis_bencana}<br>
+    //        <strong>Perangkat:</strong> ${data.id_perangkat}<br>
+    //        <strong>Waktu:</strong> ${data.waktu}`,
+    //             icon: 'warning',
+    //             iconHtml: '<i class="fa-solid fa-triangle-exclamation"></i>', // custom icon (bisa pakai HTML apa saja)
+    //             confirmButtonText: 'Tutup',
+    //             width: 600,
+    //             padding: '2em',
+    //             color: '#721c24',
+    //             background: '#fff3cd',
+    //             backdrop: `
+    //     rgba(0,0,0,0.5)
+    // `
+    //         });
+
+
+    //         // Suara notifikasi
+    //         didOpen: () => {
+    //             const audio = new Audio('aset/alarm/alarm1.mp3');
+    //             audio.play().catch(e => {
+    //                 console.warn("Autoplay diblokir:", e);
+    //             });
+    //         }
+    //     }
+    // };
+
+    function enableAudio() {
+        const audio = document.getElementById('notif-audio');
+        audio.play().then(() => {
+            audio.pause();
+            console.log('Audio siap diputar saat status bahaya!');
+        }).catch(err => {
+            console.warn('Gagal mengaktifkan audio:', err);
+        });
+    }
+
+    // Koneksi WebSocket ke server Node.js kamu
+    const socket = new WebSocket("ws://localhost:8080"); // Ganti jika dihosting
+
+    socket.onopen = function() {
+        console.log("WebSocket tersambung.");
+    };
+
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        console.log("Data dari WebSocket:", data);
+
+        if (data.status_perangkat === 'bahaya') {
+            // Inisialisasi audio jika belum ada
+            if (!dangerAudio) {
+                dangerAudio = document.getElementById('notif-audio');
+            }
+
+            // Putar audio notifikasi
+            dangerAudio.play().catch(err => {
+                console.warn('Audio gagal diputar:', err);
+            });
+
+            // Tampilkan notifikasi visual dengan SweetAlert
+            Swal.fire({
+                icon: 'warning',
+                title: '🚨 PERINGATAN BAHAYA!',
+                html: `<strong>Jenis Bencana:</strong> ${data.jenis_bencana}<br>
+                         <strong>Perangkat:</strong> ${data.id_perangkat}<br>
+                         <strong>Tanggal & Waktu:</strong> ${data.waktu}`,
+                backdrop: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Tutup',
+                showConfirmButton: true
+            }).then((result) => {
+                // Hentikan audio saat tombol "Tutup" diklik atau SweetAlert ditutup
+                if (dangerAudio) {
+                    dangerAudio.pause();
+                    dangerAudio.currentTime = 0; // Mengatur ulang waktu audio ke awal
+                    console.log('Audio dihentikan.');
+                }
             });
         }
 
-        L.marker(marker.coords, {
-                icon: icon
-            })
-            .addTo(map)
-            .setZIndexOffset(1000)
-            .bindPopup(`<b>${marker.name}</b><br>` + (marker.floorplan ? `<button onclick="show2D('${marker.floorplan}', ${markers.indexOf(marker)})">Lihat Denah</button>` : 'Tidak ada denah'));
-    });
+        // Kamu bisa update tampilan status perangkat juga di sini...
+    };
 
-    function show2D(floorplanUrl, index) {
-        const modal = document.getElementById('modal2D');
-        const img = document.getElementById('floorplanImage');
-        const container = document.getElementById('markersOnFloorplan');
-
-        img.src = '<?= base_url('aset/denah/'); ?>' + floorplanUrl;
-
-        // Kosongkan marker lama
-        container.innerHTML = '';
-
-        // Tampilkan marker perangkat di denah 2D dengan posisi relatif (%)
-        const devices = markers[index].devices || [];
-
-        devices.forEach(device => {
-            const markerDiv = document.createElement('div');
-            markerDiv.style.position = 'absolute';
-            markerDiv.style.left = device.xPercent + '%';
-            markerDiv.style.top = device.yPercent + '%';
-            markerDiv.style.transform = 'translate(-50%, -50%)';
-            markerDiv.style.width = '16px';
-            markerDiv.style.height = '16px';
-            markerDiv.style.borderRadius = '50%';
-            markerDiv.style.border = '2px solid white';
-            markerDiv.style.cursor = 'pointer';
-            markerDiv.title = device.name + ' (' + device.status + ')';
-
-            // Warna sesuai status
-            if (device.status === 'Bahaya') {
-                markerDiv.style.backgroundColor = 'red';
-            } else if (device.status === 'Mati') {
-                markerDiv.style.backgroundColor = 'gray';
-            } else {
-                markerDiv.style.backgroundColor = 'green';
-            }
-
-            container.appendChild(markerDiv);
-        });
-
-        modal.style.display = 'flex';
-    }
-
-    function close2D() {
-        document.getElementById('modal2D').style.display = 'none';
-    }
+    socket.onerror = function(err) {
+        console.error("WebSocket error:", err);
+    };
 </script>
 
 <?= $this->endSection() ?>

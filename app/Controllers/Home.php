@@ -14,6 +14,6 @@ class Home extends BaseController
             'gedung' => $gedungModel->findAll()
         ];
 
-        return view('dashboard3', $data);
+        return view('dashboard', $data);
     }
 }
