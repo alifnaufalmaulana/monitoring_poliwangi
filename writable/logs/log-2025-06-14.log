@@ -1,0 +1,328 @@
+CRITICAL - 2025-06-14 07:16:04 --> ErrorException: Undefined array key "nama_bencana"
+[Method: GET, Route: laporan]
+in APPPATH\Views\laporan.php on line 26.
+ 1 APPPATH\Views\laporan.php(26): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "nama_bencana"', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php', 26)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan', [], true)
+ 5 APPPATH\Controllers\LaporanController.php(59): view('laporan', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-14 07:16:10 --> ErrorException: Undefined array key "nama_bencana"
+[Method: GET, Route: laporan]
+in APPPATH\Views\laporan.php on line 26.
+ 1 APPPATH\Views\laporan.php(26): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "nama_bencana"', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php', 26)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\laporan.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('laporan', [], true)
+ 5 APPPATH\Controllers\LaporanController.php(59): view('laporan', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LaporanController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LaporanController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-06-14 07:34:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-06-14 07:41:16 --> mysqli_sql_exception: Column 'waktu' in where clause is ambiguous in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `riwayat...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `riwayat...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `riwayat...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2025-06-14 07:41:16 --> CodeIgniter\Database\Exceptions\DatabaseException: Column 'waktu' in where clause is ambiguous
+[Method: GET, Route: riwayat-perangkat]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= :DATE(waktu):
+AND DATE(waktu) <= :DATE(waktu).1:
+ORDER BY `waktu` DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-14 07:41:16 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Column 'waktu' in where clause is ambiguous
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= :DATE(waktu):
+AND DATE(waktu) <= :DATE(waktu).1:
+ORDER BY `waktu` DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-14 07:41:16 --> [Caused by] mysqli_sql_exception: Column 'waktu' in where clause is ambiguous
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= :DATE(waktu):
+AND DATE(waktu) <= :DATE(waktu).1:
+ORDER BY `waktu` DESC', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-06-14 07:41:29 --> mysqli_sql_exception: Column 'waktu' in where clause is ambiguous in C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `riwayat...', 0)
+#1 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `riwayat...')
+#2 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `riwayat...')
+#3 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat...', Array, false)
+#4 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\sistem-monitoring-kebencanaan\app\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+#8 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+#9 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\sistem-monitoring-kebencanaan\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\sistem-monitoring-kebencanaan\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2025-06-14 07:41:29 --> CodeIgniter\Database\Exceptions\DatabaseException: Column 'waktu' in where clause is ambiguous
+[Method: GET, Route: riwayat-perangkat]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= :DATE(waktu):
+AND DATE(waktu) <= :DATE(waktu).1:
+ORDER BY `waktu` DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-14 07:41:29 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Column 'waktu' in where clause is ambiguous
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= :DATE(waktu):
+AND DATE(waktu) <= :DATE(waktu).1:
+ORDER BY `waktu` DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-14 07:41:29 --> [Caused by] mysqli_sql_exception: Column 'waktu' in where clause is ambiguous
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= \'2025-06-12\'
+AND DATE(waktu) <= \'2025-06-13\'
+ORDER BY `waktu` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `riwayat_perangkat`.*, `perangkat`.`nama_perangkat`, `ruangan`.`nama_ruangan`, `lantai`.`nama_lantai`, `gedung`.`nama_gedung`
+FROM `riwayat_perangkat`
+JOIN `perangkat` ON `perangkat`.`id_perangkat` = `riwayat_perangkat`.`id_perangkat`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `perangkat`.`id_ruangan`
+JOIN `lantai` ON `lantai`.`id_lantai` = `ruangan`.`id_lantai`
+JOIN `gedung` ON `gedung`.`id_gedung` = `lantai`.`id_gedung`
+WHERE DATE(waktu) >= :DATE(waktu):
+AND DATE(waktu) <= :DATE(waktu).1:
+ORDER BY `waktu` DESC', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\RiwayatController.php(56): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RiwayatController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RiwayatController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-06-14 13:32:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-06-14 13:51:38 --> ErrorException: Undefined array key "id_gedung"
+[Method: GET, Route: perangkat]
+in APPPATH\Views\perangkat.php on line 142.
+ 1 APPPATH\Views\perangkat.php(142): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id_gedung"', 'C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php', 142)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sistem-monitoring-kebencanaan\\app\\Views\\perangkat.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat', [], true)
+ 5 APPPATH\Controllers\PerangkatController.php(46): view('perangkat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-14 14:25:51 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "perangkat_edit.php"
+[Method: GET, Route: perangkat/edit/1]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('perangkat_edit.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('perangkat_edit', [], true)
+ 3 APPPATH\Controllers\PerangkatController.php(91): view('perangkat_edit', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PerangkatController->edit('1')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PerangkatController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-06-14 14:58:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:02:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:19:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:24:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:24:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:24:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:25:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:29:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:30:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:30:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:31:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:31:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:31:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:31:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:31:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:31:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:32:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:32:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:35:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:35:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:36:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:36:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:36:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:37:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:37:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:40:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:40:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-06-14 15:40:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

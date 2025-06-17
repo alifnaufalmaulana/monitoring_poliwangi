@@ -8,6 +8,7 @@ use App\Models\GedungModel;
 use App\Models\RuanganModel;
 use App\Models\LantaiModel;
 use App\Models\RiwayatModel;
+use App\Models\KebencanaanModel;
 
 class PerangkatController extends BaseController
 {
@@ -16,6 +17,7 @@ class PerangkatController extends BaseController
     protected $ruanganModel;
     protected $lantaiModel;
     protected $riwayatModel;
+    protected $kebencanaanModel;
 
     public function __construct()
     {
@@ -24,126 +26,175 @@ class PerangkatController extends BaseController
         $this->ruanganModel = new RuanganModel();
         $this->lantaiModel = new LantaiModel();
         $this->riwayatModel = new RiwayatModel();
+        $this->kebencanaanModel = new KebencanaanModel();
     }
 
-    // Tampilkan semua perangkat
     public function index()
     {
         $dataPerangkat = $this->perangkatModel
             ->select('perangkat.*, ruangan.nama_ruangan, lantai.nama_lantai, gedung.nama_gedung')
             ->join('ruangan', 'perangkat.id_ruangan = ruangan.id_ruangan')
             ->join('lantai', 'ruangan.id_lantai = lantai.id_lantai')
-            ->join('gedung', 'ruangan.id_gedung = gedung.id_gedung')
+            ->join('gedung', 'lantai.id_gedung = gedung.id_gedung')
             ->findAll();
 
         $data = [
             'judul' => 'Data Perangkat',
             'perangkat' => $dataPerangkat,
             'gedung' => $this->gedungModel->findAll(),
-            'daftar_ruangan' => $this->ruanganModel->findAll(),
         ];
 
         return view('perangkat', $data);
     }
 
-    // Simpan data perangkat baru
+    // Metode simpan() sekarang hanya untuk INSERT baru
     public function simpan()
     {
+        // Debugging: Lihat data yang diterima dari POST
+        // log_message('debug', 'Data diterima untuk INSERT: ' . json_encode($this->request->getPost()));
+
         if (!$this->validate([
+            'nama_perangkat' => 'required',
+            'id_gedung' => 'required',
+            'id_lantai' => 'required',
+            'id_ruangan' => 'required',
+            'jenis_perangkat' => 'required',
+            'pos_x' => 'required',
+            'pos_y' => 'required',
+        ])) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Validasi gagal. Lengkapi semua data.',
+                'errors' => $this->validator->getErrors()
+            ]);
+        }
+
+        $data = [
+            'nama_perangkat'  => $this->request->getPost('nama_perangkat'),
+            'id_ruangan'      => $this->request->getPost('id_ruangan'),
+            'jenis_perangkat' => $this->request->getPost('jenis_perangkat'),
+            'pos_x'           => $this->request->getPost('pos_x'),
+            'pos_y'           => $this->request->getPost('pos_y'),
+            'waktu'           => date('Y-m-d H:i:s'), // Waktu sekarang
+        ];
+
+        if ($this->perangkatModel->insert($data)) { // Gunakan insert() khusus untuk INSERT
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Perangkat berhasil ditambahkan.',
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Gagal menambahkan perangkat.',
+                'errors' => $this->perangkatModel->errors()
+            ]);
+        }
+    }
+
+    public function getPerangkat($id)
+    {
+        $perangkat = $this->perangkatModel
+            ->select('perangkat.*, ruangan.id_lantai, lantai.id_gedung')
+            ->join('ruangan', 'perangkat.id_ruangan = ruangan.id_ruangan')
+            ->join('lantai', 'ruangan.id_lantai = lantai.id_lantai')
+            ->where('perangkat.id_perangkat', $id)
+            ->first();
+
+        return $this->response->setJSON($perangkat);
+    }
+
+    // Metode update($id) sekarang khusus untuk UPDATE
+    public function update($id)
+    {
+        // Debugging: Lihat data yang diterima untuk UPDATE
+        // log_message('debug', 'Data diterima untuk UPDATE: ' . json_encode($this->request->getPost()));
+
+        $validationRules = [
             'nama_perangkat'   => 'required',
-            'id_ruangan'       => 'required|integer',
+            'id_gedung'        => 'required', // Tetap validasi ini jika Anda membutuhkannya
+            'id_lantai'        => 'required', // Tetap validasi ini jika Anda membutuhkannya
+            'id_ruangan'       => 'required',
             'jenis_perangkat'  => 'required',
             'pos_x'            => 'required',
             'pos_y'            => 'required',
-        ])) {
-            return redirect()->back()->withInput()->with('error', 'Data tidak valid. Pastikan semua field terisi, termasuk posisi pada denah.');
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Validasi gagal. Lengkapi semua data.',
+                'errors' => $this->validator->getErrors()
+            ]);
         }
 
         $data = [
             'nama_perangkat'   => $this->request->getPost('nama_perangkat'),
             'id_ruangan'       => $this->request->getPost('id_ruangan'),
             'jenis_perangkat'  => $this->request->getPost('jenis_perangkat'),
-            'latitude'         => null,
-            'longitude'        => null,
             'pos_x'            => $this->request->getPost('pos_x'),
             'pos_y'            => $this->request->getPost('pos_y'),
+            'waktu'            => date('Y-m-d H:i:s'), // Update waktu juga
         ];
 
-        $this->perangkatModel->insert($data);
-
-        return redirect()->to('/perangkat')->with('success', 'Data perangkat berhasil disimpan.');
+        // CodeIgniter's update method: update(ID, DATA)
+        if ($this->perangkatModel->update($id, $data)) {
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Perangkat berhasil diupdate!'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Gagal mengupdate perangkat.',
+                'errors' => $this->perangkatModel->errors()
+            ]);
+        }
     }
 
-
-    // Edit data perangkat
-    public function edit($id = null)
+    public function hapus($id)
     {
         $perangkat = $this->perangkatModel->find($id);
         if (!$perangkat) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data perangkat tidak ditemukan.');
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Perangkat tidak ditemukan.']);
         }
 
-        $data = [
-            'judul' => 'Edit Perangkat',
-            'perangkat' => $perangkat,
-        ];
-
-        return view('perangkat_edit', $data);
-    }
-
-    // Update data perangkat
-    public function update($id = null)
-    {
-        if (!$this->validate([
-            'nama_perangkat' => 'required',
-            'id_ruangan' => 'required|integer',
-            'jenis_perangkat' => 'required',
-        ])) {
-            return redirect()->back()->withInput()->with('error', 'Data tidak valid.');
+        try {
+            $this->kebencanaanModel->where('id_perangkat', $id)->delete();
+        } catch (\Exception $e) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menghapus data terkait di tabel kebencanaan: ' . $e->getMessage()]);
         }
 
-        $data = [
-            'nama_perangkat' => $this->request->getPost('nama_perangkat'),
-            'id_ruangan' => $this->request->getPost('id_ruangan'),
-            'jenis_perangkat' => $this->request->getPost('jenis_perangkat'),
-        ];
-
-        $this->perangkatModel->update($id, $data);
-
-        return redirect()->to('/perangkat')->with('success', 'Data perangkat berhasil diupdate.');
-    }
-
-    // Hapus perangkat
-    public function hapus($id = null)
-    {
-        if ($id == null || !$this->perangkatModel->find($id)) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data perangkat tidak ditemukan.');
+        try {
+            $this->riwayatModel->where('id_perangkat', $id)->delete();
+        } catch (\Exception $e) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menghapus riwayat perangkat: ' . $e->getMessage()]);
         }
 
-        $this->perangkatModel->delete($id);
-        return redirect()->to('/perangkat')->with('success', 'Data perangkat berhasil dihapus.');
+        if ($this->perangkatModel->delete($id)) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Perangkat berhasil dihapus beserta data terkaitnya.']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menghapus perangkat utama.']);
+        }
     }
 
-    // Ambil data lantai berdasarkan gedung (untuk dropdown dinamis)
     public function getLantai($idGedung)
     {
         $lantai = $this->lantaiModel->where('id_gedung', $idGedung)->findAll();
         return $this->response->setJSON($lantai);
     }
 
-    // Ambil data ruangan berdasarkan lantai (untuk dropdown dinamis)
-    public function getRuangan($idLantai)
+    public function getRuangan($id_lantai)
     {
-        $ruangan = $this->ruanganModel->where('id_lantai', $idLantai)->findAll();
+        $ruangan = $this->ruanganModel->where('id_lantai', $id_lantai)->findAll();
         return $this->response->setJSON($ruangan);
     }
 
-    // Ambil denah berdasarkan id lantai
     public function getDenah($id_lantai)
     {
         $lantai = $this->lantaiModel->find($id_lantai);
 
-        if ($lantai) {
+        if ($lantai && isset($lantai['denah'])) {
             return $this->response->setJSON(['denah' => $lantai['denah']]);
         } else {
             return $this->response->setJSON(['denah' => null]);
@@ -152,26 +203,21 @@ class PerangkatController extends BaseController
 
     public function getPerangkatByLantai($id_lantai)
     {
-        $perangkatModel = new PerangkatModel();
-        $riwayatModel = new RiwayatModel();
-
-        // Ambil semua perangkat berdasarkan lantai
-        $perangkatList = $perangkatModel
-            ->where('id_lantai', $id_lantai)
+        $perangkatList = $this->perangkatModel
+            ->select('perangkat.*, ruangan.id_lantai')
+            ->join('ruangan', 'perangkat.id_ruangan = ruangan.id_ruangan')
+            ->where('ruangan.id_lantai', $id_lantai)
             ->findAll();
 
-        // Loop tiap perangkat untuk tambahkan status terbaru
         foreach ($perangkatList as &$perangkat) {
-            $lastStatus = $riwayatModel
+            $lastStatus = $this->riwayatModel
                 ->where('id_perangkat', $perangkat['id_perangkat'])
                 ->orderBy('waktu', 'DESC')
                 ->first();
 
-            // Jika tidak ditemukan, default 'tidak diketahui'
             $perangkat['status_perangkat'] = $lastStatus['status_perangkat'] ?? 'tidak diketahui';
         }
 
-        // Kirim data JSON ke frontend
         return $this->response->setJSON($perangkatList);
     }
 }

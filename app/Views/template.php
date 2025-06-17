@@ -10,7 +10,7 @@
     <title>PEWS | <?= esc($judul ?? '') ?></title>
     <link href="<?= base_url('sb-admin') ?>/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -68,7 +68,7 @@
                             <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list"></i></div>
                             Laporan
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>">
+                        <a class="nav-link text-white" href="<?= base_url('riwayat-perangkat') ?>">
                             <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left"></i></div>
                             Riwayat
                         </a>

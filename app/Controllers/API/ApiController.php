@@ -36,18 +36,28 @@ class ApiController extends ResourceController
         $data = $this->lantaiModel->where('id_gedung', $id_gedung)->findAll();
         return $this->respond($data);
     }
+
     public function getPerangkatByLantai($id_lantai)
     {
-        $perangkatModel = new PerangkatModel();
-        $perangkat = $perangkatModel
+        $db = \Config\Database::connect();
+
+        // Ambil data perangkat terakhir (status terbaru) berdasarkan id_perangkat
+        $subquery = $db->table('riwayat_perangkat')
+            ->select('MAX(id_riwayat) as max_id')
+            ->join('perangkat', 'perangkat.id_perangkat = riwayat_perangkat.id_perangkat')
             ->join('ruangan', 'ruangan.id_ruangan = perangkat.id_ruangan')
-            ->join('riwayat_perangkat', 'riwayat_perangkat.id_perangkat = perangkat.id_perangkat')
             ->where('ruangan.id_lantai', $id_lantai)
-            ->select('perangkat.id_perangkat, perangkat.nama_perangkat, perangkat.pos_x, perangkat.pos_y, riwayat_perangkat.status_perangkat')
-            ->findAll();
+            ->groupBy('riwayat_perangkat.id_perangkat');
 
+        $builder = $db->table('riwayat_perangkat');
+        $builder->select('perangkat.id_perangkat, perangkat.nama_perangkat, perangkat.pos_x, perangkat.pos_y, riwayat_perangkat.status_perangkat');
+        $builder->join('perangkat', 'perangkat.id_perangkat = riwayat_perangkat.id_perangkat');
+        $builder->join('ruangan', 'ruangan.id_ruangan = perangkat.id_ruangan');
+        $builder->where('ruangan.id_lantai', $id_lantai);
+        $builder->whereIn('riwayat_perangkat.id_riwayat', $subquery);
 
+        $result = $builder->get()->getResultArray();
 
-        return $this->response->setJSON($perangkat);
+        return $this->response->setJSON($result);
     }
 }

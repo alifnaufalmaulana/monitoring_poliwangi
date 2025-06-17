@@ -23,7 +23,7 @@
                                 <option value="">-- Pilih --</option>
                                 <?php foreach ($daftar_kebencanaan as $k): ?>
                                     <option value="<?= esc($k['id_kebencanaan']) ?>">
-                                        <?= esc($k['nama_bencana']) ?>
+                                        <?= esc($k['jenis_bencana']) ?>
                                     </option>
                                 <?php endforeach ?>
                             </select>

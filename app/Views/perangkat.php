@@ -14,11 +14,11 @@
                 </button>
             </div>
 
-            <!-- FORM TAMBAH -->
             <div id="formTambah" class="card mb-4 shadow-sm" style="display: none;">
                 <div class="card-body">
-                    <form action="<?= base_url('/perangkat/simpan') ?>" method="post" onsubmit="return validateKoordinat();">
+                    <form id="formPerangkat" action="<?= base_url('/perangkat/simpan') ?>" method="post" onsubmit="return validateKoordinat();">
                         <?= csrf_field() ?>
+                        <input type="hidden" name="id_perangkat" id="id_perangkat">
                         <div class="mb-3">
                             <label for="nama_perangkat" class="form-label">Nama Perangkat</label>
                             <input type="text" class="form-control" name="nama_perangkat" id="nama_perangkat" required>
@@ -53,18 +53,17 @@
                             <input type="text" class="form-control" name="jenis_perangkat" id="jenis_perangkat" required>
                         </div>
 
-                        <!-- Input hidden untuk koordinat -->
                         <input type="hidden" name="pos_x" id="pos_x">
                         <input type="hidden" name="pos_y" id="pos_y">
 
-                        <!-- Denah -->
-                        <div class="mb-3" id="denahContainer" style="display: none;">
+                        <div id="denahContainer" style="display: none; margin-top: 20px;">
                             <label class="form-label">Klik pada Denah untuk menentukan posisi perangkat</label>
 
-                            <!-- Denah & Marker Container -->
-                            <div style="position: relative; display: inline-block; width: 100%;">
-                                <img id="denahImage" src="" alt="Denah Lantai" style="width: 100%; border: 1px solid #ccc; cursor: crosshair;">
-                                <div id="markersOnFloorplan" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></div>
+                            <div id="floorplanWrapper" style="width: 100%; height: 60vh; position: relative; border: 1px solid #ccc;">
+                                <img id="denahImage" src="" alt="Denah Lantai"
+                                    style="width: 100%; height: 100%; object-fit: contain; cursor: crosshair;">
+                                <div id="markersOnFloorplan"
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></div>
                             </div>
 
                             <div class="mt-2"><strong>Posisi Klik:</strong> <span id="koordinatTeks">Belum dipilih</span></div>
@@ -76,7 +75,6 @@
                 </div>
             </div>
 
-            <!-- TABEL PERANGKAT -->
             <div id="tabelPerangkat" class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -90,9 +88,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $no = 1; ?>
                                 <?php foreach ($perangkat as $p): ?>
                                     <tr>
-                                        <td><?= esc($p['id_perangkat']) ?></td>
+                                        <td><?= $no++ ?></td>
                                         <td><?= esc($p['nama_perangkat']) ?></td>
                                         <td>
                                             Gedung: <?= esc($p['nama_gedung']) ?><br>
@@ -100,12 +99,12 @@
                                             Ruangan: <?= esc($p['nama_ruangan']) ?>
                                         </td>
                                         <td>
-                                            <a href="<?= base_url('perangkat/edit/' . $p['id_perangkat']) ?>" class="btn btn-sm btn-warning">
+                                            <button class="btn btn-sm btn-warning btn-edit" data-id="<?= $p['id_perangkat'] ?>">
                                                 <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="<?= base_url('perangkat/hapus/' . $p['id_perangkat']) ?>" class="btn btn-sm btn-danger btn-hapus">
+                                            </button>
+                                            <button class="btn btn-sm btn-danger btn-hapus" data-id="<?= $p['id_perangkat'] ?>">
                                                 <i class="fas fa-trash-alt"></i>
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 <?php endforeach ?>
@@ -114,112 +113,64 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
+    const formTambah = document.getElementById('formTambah');
     const btnTambah = document.getElementById('btnTambah');
     const btnBatal = document.getElementById('btnBatal');
-    const formTambah = document.getElementById('formTambah');
-    const tabelPerangkat = document.getElementById('tabelPerangkat');
     const denahContainer = document.getElementById('denahContainer');
     const denahImage = document.getElementById('denahImage');
-    const koordinatTeks = document.getElementById('koordinatTeks');
     const markersOnFloorplan = document.getElementById('markersOnFloorplan');
+    const koordinatTeks = document.getElementById('koordinatTeks');
+    const formPerangkat = document.getElementById('formPerangkat');
+    const idPerangkatInput = document.getElementById('id_perangkat');
+    const tabelPerangkat = document.getElementById('tabelPerangkat'); // <<< BARU: Referensi ke elemen tabel
 
-    // Tampilkan form tambah
     btnTambah.addEventListener('click', () => {
+        resetForm();
+        formPerangkat.action = '<?= base_url('/perangkat/simpan') ?>'; // Set action untuk simpan baru
         formTambah.style.display = 'block';
-        tabelPerangkat.style.display = 'none';
         btnTambah.style.display = 'none';
+        tabelPerangkat.style.display = 'none'; // <<< BARU: Sembunyikan tabel
     });
 
-    // Batal tambah
     btnBatal.addEventListener('click', () => {
-        formTambah.style.display = 'none';
-        tabelPerangkat.style.display = 'block';
-        btnTambah.style.display = 'inline-block';
-        denahContainer.style.display = 'none';
-        denahImage.src = "";
-        koordinatTeks.textContent = "Belum dipilih";
-        markersOnFloorplan.innerHTML = '';
+        resetForm();
+        tabelPerangkat.style.display = 'block'; // <<< BARU: Tampilkan kembali tabel saat batal
     });
 
-    // Dropdown gedung -> lantai
-    document.getElementById('id_gedung').addEventListener('change', function() {
-        const idGedung = this.value;
+    function resetForm() {
+        formPerangkat.reset();
+        idPerangkatInput.value = '';
         document.getElementById('id_lantai').innerHTML = '<option value="">-- Pilih Lantai --</option>';
         document.getElementById('id_ruangan').innerHTML = '<option value="">-- Pilih Ruangan --</option>';
+        markersOnFloorplan.innerHTML = '';
+        denahImage.src = '';
+        koordinatTeks.textContent = 'Belum dipilih';
         denahContainer.style.display = 'none';
-        denahImage.src = "";
-        markersOnFloorplan.innerHTML = '';
+        formTambah.style.display = 'none';
+        btnTambah.style.display = 'inline-block';
+        formPerangkat.action = '<?= base_url('/perangkat/simpan') ?>';
+    }
 
-        if (idGedung) {
-            fetch(`<?= base_url('perangkat/getLantai') ?>/${idGedung}`)
-                .then(response => response.json())
-                .then(data => {
-                    const lantaiSelect = document.getElementById('id_lantai');
-                    data.forEach(lantai => {
-                        lantaiSelect.innerHTML += `<option value="${lantai.id_lantai}">${lantai.nama_lantai}</option>`;
-                    });
-                });
+    function validateKoordinat() {
+        if (!document.getElementById('pos_x').value || !document.getElementById('pos_y').value) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Perhatian!',
+                text: 'Silakan klik pada denah untuk menentukan posisi perangkat.',
+                confirmButtonText: 'Oke'
+            });
+            return false;
         }
-    });
+        return true;
+    }
 
-    // Dropdown lantai -> ruangan + denah
-    document.getElementById('id_lantai').addEventListener('change', function() {
-        const idLantai = this.value;
-        document.getElementById('id_ruangan').innerHTML = '<option value="">-- Pilih Ruangan --</option>';
-        denahContainer.style.display = 'none';
-        denahImage.src = "";
+    function tampilkanMarker(posX, posY) {
         markersOnFloorplan.innerHTML = '';
-
-        if (idLantai) {
-            fetch(`<?= base_url('perangkat/getRuangan') ?>/${idLantai}`)
-                .then(response => response.json())
-                .then(data => {
-                    const ruanganSelect = document.getElementById('id_ruangan');
-                    data.forEach(ruangan => {
-                        ruanganSelect.innerHTML += `<option value="${ruangan.id_ruangan}">${ruangan.nama_ruangan}</option>`;
-                    });
-                });
-
-            fetch(`<?= base_url('perangkat/getDenah') ?>/${idLantai}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.denah) {
-                        denahImage.src = `<?= base_url('aset/denah') ?>/${data.denah}`;
-                        denahContainer.style.display = 'block';
-                    } else {
-                        denahImage.src = "";
-                        denahContainer.style.display = 'none';
-                    }
-                });
-        }
-    });
-
-    // Klik denah untuk ambil posisi relatif dan tampilkan marker
-    denahImage.addEventListener('click', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const width = this.offsetWidth;
-        const height = this.offsetHeight;
-
-        const percentX = ((x / width) * 100).toFixed(2);
-        const percentY = ((y / height) * 100).toFixed(2);
-
-        document.getElementById('pos_x').value = percentX;
-        document.getElementById('pos_y').value = percentY;
-        koordinatTeks.textContent = `X: ${percentX}%, Y: ${percentY}%`;
-
-        // Hapus marker lama
-        markersOnFloorplan.innerHTML = '';
-
-        // Tambahkan marker baru
         const marker = document.createElement('div');
         marker.style.position = 'absolute';
         marker.style.width = '12px';
@@ -227,26 +178,299 @@
         marker.style.backgroundColor = 'green';
         marker.style.border = '2px solid white';
         marker.style.borderRadius = '50%';
-        marker.style.left = `${percentX}%`;
-        marker.style.top = `${percentY}%`;
+        marker.style.left = `${posX}%`;
+        marker.style.top = `${posY}%`;
         marker.style.transform = 'translate(-50%, -50%)';
-        marker.title = `X: ${percentX}%, Y: ${percentY}%`;
-
         markersOnFloorplan.appendChild(marker);
+        koordinatTeks.textContent = `X: ${posX}%, Y: ${posY}%`;
+    }
+
+    document.getElementById('id_gedung').addEventListener('change', function() {
+        const idGedung = this.value;
+        if (idGedung) {
+            fetch(`<?= base_url('perangkat/getLantai') ?>/${idGedung}`)
+                .then(response => response.json())
+                .then(data => {
+                    const lantaiSelect = document.getElementById('id_lantai');
+                    lantaiSelect.innerHTML = '<option value="">-- Pilih Lantai --</option>';
+                    data.forEach(l => lantaiSelect.innerHTML += `<option value="${l.id_lantai}">${l.nama_lantai}</option>`);
+                    document.getElementById('id_ruangan').innerHTML = '<option value="">-- Pilih Ruangan --</option>'; // Reset ruangan
+                    denahImage.src = ''; // Reset denah
+                    denahContainer.style.display = 'none';
+                    markersOnFloorplan.innerHTML = '';
+                    koordinatTeks.textContent = 'Belum dipilih';
+                    document.getElementById('pos_x').value = '';
+                    document.getElementById('pos_y').value = '';
+                })
+                .catch(error => {
+                    console.error('Error fetching lantai:', error);
+                    Swal.fire('Error', 'Gagal memuat daftar lantai.', 'error');
+                });
+        } else {
+            document.getElementById('id_lantai').innerHTML = '<option value="">-- Pilih Lantai --</option>';
+            document.getElementById('id_ruangan').innerHTML = '<option value="">-- Pilih Ruangan --</option>';
+            denahImage.src = '';
+            denahContainer.style.display = 'none';
+            markersOnFloorplan.innerHTML = '';
+            koordinatTeks.textContent = 'Belum dipilih';
+            document.getElementById('pos_x').value = '';
+            document.getElementById('pos_y').value = '';
+        }
     });
 
-    // Validasi sebelum submit
-    function validateKoordinat() {
-        const posX = document.getElementById('pos_x').value;
-        const posY = document.getElementById('pos_y').value;
+    document.getElementById('id_lantai').addEventListener('change', function() {
+        const idLantai = this.value;
+        if (idLantai) {
+            // Ambil daftar ruangan
+            fetch(`<?= base_url('perangkat/getRuangan') ?>/${idLantai}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ruanganSelect = document.getElementById('id_ruangan');
+                    ruanganSelect.innerHTML = '<option value="">-- Pilih Ruangan --</option>';
+                    data.forEach(r => ruanganSelect.innerHTML += `<option value="${r.id_ruangan}">${r.nama_ruangan}</option>`);
+                })
+                .catch(error => {
+                    console.error('Error fetching ruangan:', error);
+                    Swal.fire('Error', 'Gagal memuat daftar ruangan.', 'error');
+                });
 
-        if (!posX || !posY) {
-            alert('Silakan klik pada denah untuk menentukan posisi perangkat terlebih dahulu.');
-            return false;
+            // Ambil denah
+            fetch(`<?= base_url('perangkat/getDenah') ?>/${idLantai}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.denah) {
+                        denahImage.src = `<?= base_url('aset/denah') ?>/${data.denah}`;
+                        denahContainer.style.display = 'block';
+                        // Jika sedang edit dan ada koordinat, tampilkan marker
+                        if (idPerangkatInput.value && document.getElementById('pos_x').value && document.getElementById('pos_y').value) {
+                            tampilkanMarker(document.getElementById('pos_x').value, document.getElementById('pos_y').value);
+                        } else {
+                            markersOnFloorplan.innerHTML = ''; // Pastikan marker kosong jika bukan edit
+                            koordinatTeks.textContent = 'Belum dipilih';
+                            document.getElementById('pos_x').value = '';
+                            document.getElementById('pos_y').value = '';
+                        }
+                    } else {
+                        denahImage.src = '';
+                        denahContainer.style.display = 'none';
+                        markersOnFloorplan.innerHTML = '';
+                        koordinatTeks.textContent = 'Belum dipilih';
+                        document.getElementById('pos_x').value = '';
+                        document.getElementById('pos_y').value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching denah:', error);
+                    Swal.fire('Error', 'Gagal memuat denah.', 'error');
+                });
+        } else {
+            document.getElementById('id_ruangan').innerHTML = '<option value="">-- Pilih Ruangan --</option>';
+            denahImage.src = '';
+            denahContainer.style.display = 'none';
+            markersOnFloorplan.innerHTML = '';
+            koordinatTeks.textContent = 'Belum dipilih';
+            document.getElementById('pos_x').value = '';
+            document.getElementById('pos_y').value = '';
+        }
+    });
+
+    denahImage.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const percentX = ((x / this.offsetWidth) * 100).toFixed(2);
+        const percentY = ((y / this.offsetHeight) * 100).toFixed(2);
+        document.getElementById('pos_x').value = percentX;
+        document.getElementById('pos_y').value = percentY;
+        tampilkanMarker(percentX, percentY);
+    });
+
+    // Menangani submit form dengan SweetAlert
+    formPerangkat.addEventListener('submit', function(e) {
+        e.preventDefault(); // Mencegah submit default
+
+        if (!validateKoordinat()) {
+            return;
         }
 
-        return true;
-    }
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data perangkat akan disimpan!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const formData = new FormData(formPerangkat);
+                const url = formPerangkat.action;
+                const method = 'POST'; // Tetap POST, CI4 akan menangani PUT/PATCH via method spoofing jika perlu
+
+                fetch(url, {
+                        method: method,
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            Swal.fire(
+                                'Berhasil!',
+                                data.message,
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Gagal!',
+                                data.message,
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error!',
+                            'Terjadi kesalahan saat menyimpan data.',
+                            'error'
+                        );
+                    });
+            }
+        });
+    });
+
+    // tombol edit
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            formPerangkat.action = `<?= base_url('/perangkat/update') ?>/${id}`; // Set action untuk update
+
+            fetch(`<?= base_url('perangkat/getPerangkat') ?>/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    btnTambah.style.display = 'none';
+                    formTambah.style.display = 'block';
+                    tabelPerangkat.style.display = 'none'; // <<< BARU: Sembunyikan tabel saat mode edit
+                    idPerangkatInput.value = data.id_perangkat;
+                    document.getElementById('nama_perangkat').value = data.nama_perangkat;
+                    document.getElementById('jenis_perangkat').value = data.jenis_perangkat;
+                    document.getElementById('pos_x').value = data.pos_x;
+                    document.getElementById('pos_y').value = data.pos_y;
+
+                    // isi dropdown
+                    document.getElementById('id_gedung').value = data.id_gedung;
+                    fetch(`<?= base_url('perangkat/getLantai') ?>/${data.id_gedung}`)
+                        .then(r => r.json()).then(lantai => {
+                            const s = document.getElementById('id_lantai');
+                            s.innerHTML = '<option value="">-- Pilih Lantai --</option>';
+                            lantai.forEach(l => {
+                                s.innerHTML += `<option value="${l.id_lantai}" ${l.id_lantai == data.id_lantai ? 'selected' : ''}>${l.nama_lantai}</option>`;
+                            });
+
+                            // ambil ruangan dan denah
+                            fetch(`<?= base_url('perangkat/getRuangan') ?>/${data.id_lantai}`)
+                                .then(r => r.json()).then(ruangan => {
+                                    const s2 = document.getElementById('id_ruangan');
+                                    s2.innerHTML = '<option value="">-- Pilih Ruangan --</option>';
+                                    ruangan.forEach(r => {
+                                        s2.innerHTML += `<option value="${r.id_ruangan}" ${r.id_ruangan == data.id_ruangan ? 'selected' : ''}>${r.nama_ruangan}</option>`;
+                                    });
+                                });
+
+                            fetch(`<?= base_url('perangkat/getDenah') ?>/${data.id_lantai}`)
+                                .then(r => r.json()).then(d => {
+                                    if (d.denah) {
+                                        denahImage.src = `<?= base_url('aset/denah') ?>/${d.denah}`;
+                                        denahContainer.style.display = 'block';
+                                        if (data.pos_x && data.pos_y) {
+                                            tampilkanMarker(data.pos_x, data.pos_y);
+                                        } else {
+                                            markersOnFloorplan.innerHTML = '';
+                                            koordinatTeks.textContent = 'Belum dipilih';
+                                        }
+                                    } else {
+                                        denahImage.src = '';
+                                        denahContainer.style.display = 'none';
+                                        markersOnFloorplan.innerHTML = '';
+                                        koordinatTeks.textContent = 'Belum dipilih';
+                                    }
+                                });
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching perangkat data:', error);
+                    Swal.fire('Error', 'Gagal memuat data perangkat untuk diedit.', 'error');
+                });
+        });
+    });
+
+    // tombol hapus dengan SweetAlert (tidak ada perubahan di sini)
+    document.querySelectorAll('.btn-hapus').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak akan bisa mengembalikan data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`<?= base_url('perangkat/hapus') ?>/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                Swal.fire(
+                                    'Dihapus!',
+                                    data.message,
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    data.message,
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Error!',
+                                'Terjadi kesalahan saat menghapus data.',
+                                'error'
+                            );
+                        });
+                }
+            });
+        });
+    });
+
+    // Check for flashdata messages (from CodeIgniter controller)
+    <?php if (session()->getFlashdata('message')): ?>
+        Swal.fire({
+            icon: '<?= session()->getFlashdata('type') ?>',
+            title: '<?= session()->getFlashdata('title') ?>',
+            text: '<?= session()->getFlashdata('message') ?>',
+            confirmButtonText: 'Oke'
+        });
+    <?php endif; ?>
 </script>
 
 <?= $this->endSection() ?>

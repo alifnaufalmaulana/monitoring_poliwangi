@@ -12,7 +12,7 @@ class PerangkatModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['nama_perangkat', 'id_ruangan', 'jenis_perangkat', 'latitude', 'longitude', 'update_at', 'pos_x', 'pos_y',];
+    protected $allowedFields    = ['id_perangkat', 'nama_perangkat', 'id_ruangan', 'jenis_perangkat', 'latitude', 'longitude', 'waktu', 'pos_x', 'pos_y',];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

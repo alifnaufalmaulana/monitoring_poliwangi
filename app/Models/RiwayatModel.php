@@ -13,6 +13,15 @@ class RiwayatModel extends Model
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
     protected $allowedFields    = ['id_perangkat', 'status_perangkat', 'aksi', 'waktu',];
+    protected $useTimestamps = false;
+
+    public function getAllRiwayat()
+    {
+        return $this->select('riwayat_perangkat.*, perangkat.nama_perangkat')
+            ->join('perangkat', 'perangkat.id_perangkat = riwayat_perangkat.id_perangkat')
+            ->orderBy('waktu', 'DESC')
+            ->findAll();
+    }
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
@@ -21,7 +30,6 @@ class RiwayatModel extends Model
     // protected array $castHandlers = [];
 
     // // Dates
-    // protected $useTimestamps = true;
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
     // protected $dateFormat    = 'datetime';

@@ -90,11 +90,7 @@
 </div>
 
 <!-- Audio notifikasi -->
-<!-- <audio id="notif-audio" src="<?= base_url('aset/alarm/alarm1.mp3') ?>" preload="auto"></audio> -->
 <audio id="notif-audio" src="<?= base_url('aset/alarm/alarm1.mp3') ?>" loop></audio>
-
-<!-- Tombol aktivasi audio agar bisa diputar -->
-<!-- <button onclick="enableAudio()">Aktifkan Notifikasi Audio</button> -->
 
 <!-- LIBRARY -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -211,14 +207,15 @@
                 perangkat.forEach(p => {
                     const marker = document.createElement('div');
                     marker.style.position = 'absolute';
-                    marker.style.width = '14px';
-                    marker.style.height = '14px';
+                    marker.style.width = '12px';
+                    marker.style.height = '12px';
                     marker.style.borderRadius = '50%';
                     marker.style.left = `${p.pos_x}%`;
                     marker.style.top = `${p.pos_y}%`;
+                    marker.style.transform = 'translate(-50%, -50%)';
                     marker.title = p.nama_perangkat;
 
-                    // ⬇️ Tambahkan warna dinamis berdasarkan status
+                    // Tambahkan warna dinamis
                     if (p.status_perangkat === 'aktif') {
                         marker.style.backgroundColor = 'green';
                     } else if (p.status_perangkat === 'mati') {
@@ -226,11 +223,12 @@
                     } else if (p.status_perangkat === 'bahaya') {
                         marker.style.backgroundColor = 'red';
                     } else {
-                        marker.style.backgroundColor = 'black'; // fallback
+                        marker.style.backgroundColor = 'green';
                     }
 
                     markersOnFloorplan.appendChild(marker);
                 });
+
 
             })
             .catch(err => {
@@ -263,40 +261,6 @@
         document.getElementById('modalTower').style.display = 'none';
         document.getElementById('towerImage').src = '';
     }
-
-    // const ws = new WebSocket("ws://localhost:8080");
-
-    // ws.onmessage = function(event) {
-    //     const data = JSON.parse(event.data);
-
-    //     if (data.status_perangkat === 'bahaya') {
-    //         Swal.fire({
-    //             title: '🚨 PERINGATAN BAHAYA!',
-    //             html: `<strong>Jenis Bencana:</strong> ${data.jenis_bencana}<br>
-    //        <strong>Perangkat:</strong> ${data.id_perangkat}<br>
-    //        <strong>Waktu:</strong> ${data.waktu}`,
-    //             icon: 'warning',
-    //             iconHtml: '<i class="fa-solid fa-triangle-exclamation"></i>', // custom icon (bisa pakai HTML apa saja)
-    //             confirmButtonText: 'Tutup',
-    //             width: 600,
-    //             padding: '2em',
-    //             color: '#721c24',
-    //             background: '#fff3cd',
-    //             backdrop: `
-    //     rgba(0,0,0,0.5)
-    // `
-    //         });
-
-
-    //         // Suara notifikasi
-    //         didOpen: () => {
-    //             const audio = new Audio('aset/alarm/alarm1.mp3');
-    //             audio.play().catch(e => {
-    //                 console.warn("Autoplay diblokir:", e);
-    //             });
-    //         }
-    //     }
-    // };
 
     function enableAudio() {
         const audio = document.getElementById('notif-audio');
@@ -333,7 +297,7 @@
             // Tampilkan notifikasi visual dengan SweetAlert
             Swal.fire({
                 icon: 'warning',
-                title: '🚨 PERINGATAN BAHAYA!',
+                title: '🚨 PERINGATAN BAHAYA! 🚨',
                 html: `<strong>Jenis Bencana:</strong> ${data.jenis_bencana}<br>
                          <strong>Perangkat:</strong> ${data.id_perangkat}<br>
                          <strong>Tanggal & Waktu:</strong> ${data.waktu}`,

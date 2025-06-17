@@ -24,13 +24,15 @@ $routes->get('/laporan/edit/(:num)', 'LaporanController::edit/$1');
 $routes->post('/laporan/update/(:num)', 'LaporanController::update/$1');
 $routes->post('/laporan/delete/(:num)', 'LaporanController::delete/$1');
 
-
 $routes->get('/perangkat', 'PerangkatController::index');
 $routes->post('/perangkat/simpan', 'PerangkatController::simpan');
-$routes->get('/perangkat/edit/(:segment)', 'PerangkatController::edit/$1');
-$routes->post('/perangkat/update/(:segment)', 'PerangkatController::update/$1');
-$routes->get('/perangkat/hapus/(:segment)', 'PerangkatController::hapus/$1');
+$routes->get('/perangkat/edit/(:num)', 'PerangkatController::edit/$1');
+$routes->post('perangkat/update/(:num)', 'PerangkatController::update/$1');
+$routes->delete('/perangkat/hapus/(:num)', 'PerangkatController::hapus/$1');
 $routes->get('/perangkat/getLantai/(:num)', 'PerangkatController::getLantai/$1');
 $routes->get('/perangkat/getRuangan/(:num)', 'PerangkatController::getRuangan/$1');
 $routes->get('perangkat/getDenah/(:num)', 'PerangkatController::getDenah/$1');
 $routes->get('perangkat/lantai/(:num)', 'PerangkatController::getPerangkatByLantai/$1');
+$routes->get('perangkat/getPerangkat/(:num)', 'PerangkatController::getPerangkat/$1');
+
+$routes->get('/riwayat-perangkat', 'RiwayatController::index');

@@ -8,5 +8,5 @@ class KebencanaanModel extends Model
 {
     protected $table = 'kebencanaan';
     protected $primaryKey = 'id_kebencanaan';
-    protected $allowedFields = ['jenis_bencana'];
+    protected $allowedFields = ['id_perangkat','jenis_bencana', 'waktu'];
 }
