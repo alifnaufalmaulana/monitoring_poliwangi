@@ -1,0 +1,33 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#layoutSidenav {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#layoutSidenav_nav {
+  flex-shrink: 0;
+  width: 250px;
+}
+
+#layoutSidenav_content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+footer {
+  flex-shrink: 0;
+}

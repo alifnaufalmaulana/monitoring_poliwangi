@@ -1,6 +1,7 @@
 const mqtt = require('mqtt');
 const mysql = require('mysql');
 const WebSocket = require('ws');
+const util = require('util');
 
 // Koneksi ke database MySQL
 const db = mysql.createConnection({
@@ -9,7 +10,6 @@ const db = mysql.createConnection({
   password: '',
   database: 'monitor_bencana',
 });
-
 db.connect((err) => {
   if (err) {
     console.error('Gagal terhubung ke database:', err);
@@ -17,6 +17,9 @@ db.connect((err) => {
   }
   console.log('Terhubung ke database MySQL');
 });
+
+// Ubah query callback jadi async/await
+const query = util.promisify(db.query).bind(db);
 
 // Membuat WebSocket server
 const wss = new WebSocket.Server({ port: 8080 });
@@ -36,101 +39,80 @@ client.on('connect', () => {
   });
 });
 
-// Saat menerima pesan MQTT
-client.on('message', (topic, message) => {
+// Saat menerima pesan dari MQTT
+client.on('message', async (topic, message) => {
   const payload = message.toString();
   console.log(`Pesan diterima dari [${topic}]: ${payload}`);
 
   try {
     const data = JSON.parse(payload);
 
-    // Update lat dan long perangkat ke tabel `perangkat`
+    // Simpan/update posisi perangkat
     if (data.latitude && data.longitude) {
-      const updatePosisi = `UPDATE perangkat SET latitude = ?, longitude = ? WHERE id_perangkat = ?`;
-      db.query(updatePosisi, [data.latitude, data.longitude, data.id_perangkat], (err) => {
-        if (err) {
-          console.error('Gagal update posisi perangkat:', err);
-        } else {
-          console.log(`Berhasil update posisi perangkat ID ${data.id_perangkat}`);
-        }
-      });
+      await query(`UPDATE perangkat SET latitude = ?, longitude = ? WHERE id_perangkat = ?`, [data.latitude, data.longitude, data.id_perangkat]);
+      console.log(`Update posisi perangkat ID ${data.id_perangkat}`);
     }
 
-    // Proses penyimpanan ke `riwayat_perangkat`
-    const cekSql = 'SELECT status_perangkat, aksi, waktu FROM riwayat_perangkat WHERE id_perangkat = ? ORDER BY waktu DESC LIMIT 1';
-    db.query(cekSql, [data.id_perangkat], (err, results) => {
-      if (err) {
-        console.error('Gagal mengambil data terakhir:', err);
-        return;
+    // Proses penyimpanan riwayat
+    const results = await query('SELECT status_perangkat, aksi, waktu FROM riwayat_perangkat WHERE id_perangkat = ? ORDER BY waktu DESC LIMIT 1', [data.id_perangkat]);
+
+    if (results.length === 0) {
+      await query(`INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)`, [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu]);
+      console.log(`Insert riwayat pertama perangkat ID ${data.id_perangkat}`);
+    } else {
+      const last = results[0];
+
+      if (last.status_perangkat === data.status_perangkat && last.aksi === data.aksi && last.waktu !== data.waktu) {
+        await query(`UPDATE riwayat_perangkat SET waktu = ? WHERE id_perangkat = ? AND waktu = ?`, [data.waktu, data.id_perangkat, last.waktu]);
+      } else if (last.status_perangkat === data.status_perangkat && last.aksi !== data.aksi) {
+        await query(`UPDATE riwayat_perangkat SET aksi = ?, waktu = ? WHERE id_perangkat = ? AND waktu = ?`, [data.aksi, data.waktu, data.id_perangkat, last.waktu]);
+      } else if (last.status_perangkat !== data.status_perangkat || last.aksi !== data.aksi || last.waktu !== data.waktu) {
+        await query(`INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)`, [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu]);
       }
+    }
 
-      if (results.length === 0) {
-        // Insert pertama kali
-        const insertSql = `INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)`;
-        db.query(insertSql, [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu], (err) => {
-          if (err) {
-            console.error('Gagal insert riwayat perangkat pertama:', err);
-          } else {
-            console.log(`Berhasil insert riwayat pertama perangkat ID ${data.id_perangkat}`);
-          }
-        });
-      } else {
-        const last = results[0];
+    // Simpan ke kebencanaan jika status bahaya
+    if (data.status_perangkat === 'bahaya' && data.jenis_bencana) {
+      await query(`INSERT INTO kebencanaan (id_perangkat, jenis_bencana, waktu) VALUES (?, ?, ?)`, [data.id_perangkat, data.jenis_bencana, data.waktu]);
+      console.log(`Bahaya! Disimpan ke kebencanaan dari perangkat ID ${data.id_perangkat}`);
+    }
 
-        if (last.status_perangkat === data.status_perangkat && last.aksi === data.aksi && last.waktu !== data.waktu) {
-          // Waktu beda, status & aksi sama → update waktu
-          const updateSql = `UPDATE riwayat_perangkat SET waktu = ? WHERE id_perangkat = ? AND waktu = ?`;
-          db.query(updateSql, [data.waktu, data.id_perangkat, last.waktu], (err) => {
-            if (err) {
-              console.error('Gagal update waktu riwayat:', err);
-            } else {
-              console.log(`Berhasil update waktu riwayat perangkat ID ${data.id_perangkat}`);
-            }
-          });
-        } else if (last.status_perangkat === data.status_perangkat && last.aksi !== data.aksi) {
-          // Aksi beda → update aksi & waktu
-          const updateSql = `UPDATE riwayat_perangkat SET aksi = ?, waktu = ? WHERE id_perangkat = ? AND waktu = ?`;
-          db.query(updateSql, [data.aksi, data.waktu, data.id_perangkat, last.waktu], (err) => {
-            if (err) {
-              console.error('Gagal update aksi & waktu riwayat:', err);
-            } else {
-              console.log(`Berhasil update aksi & waktu perangkat ID ${data.id_perangkat}`);
-            }
-          });
-        } else if (last.status_perangkat !== data.status_perangkat || last.aksi !== data.aksi || last.waktu !== data.waktu) {
-          // Ada perubahan → insert baru
-          const insertSql = `INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)`;
-          db.query(insertSql, [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu], (err) => {
-            if (err) {
-              console.error('Gagal insert riwayat baru:', err);
-            } else {
-              console.log(`Berhasil insert riwayat baru perangkat ID ${data.id_perangkat}`);
-            }
-          });
-        }
+    // Ambil nama perangkat + lokasi berdasarkan id_perangkat
+    const lokasiResult = await query(
+      `
+      SELECT p.nama_perangkat, g.nama_gedung, l.nama_lantai, r.nama_ruangan
+      FROM perangkat p
+      JOIN ruangan r ON p.id_ruangan = r.id_ruangan
+      JOIN lantai l ON r.id_lantai = l.id_lantai
+      JOIN gedung g ON l.id_gedung = g.id_gedung
+      WHERE p.id_perangkat = ?
+      `,
+      [data.id_perangkat]
+    );
+
+    const lokasi = lokasiResult[0] || {
+      nama_perangkat: 'Tidak diketahui',
+      nama_gedung: 'Tidak diketahui',
+      nama_lantai: 'Tidak diketahui',
+      nama_ruangan: 'Tidak diketahui',
+    };
+
+    const dataLengkap = {
+      ...data,
+      nama_perangkat: lokasi.nama_perangkat,
+      gedung: lokasi.nama_gedung,
+      lantai: lokasi.nama_lantai,
+      ruangan: lokasi.nama_ruangan,
+    };
+
+    // Kirim ke semua klien WebSocket
+    wss.clients.forEach((wsClient) => {
+      if (wsClient.readyState === WebSocket.OPEN) {
+        wsClient.send(JSON.stringify(dataLengkap));
       }
-
-      // Simpan ke tabel `kebencanaan` jika status bahaya
-      if (data.status_perangkat === 'bahaya' && data.jenis_bencana) {
-        const insertBencana = `INSERT INTO kebencanaan (id_perangkat, jenis_bencana, waktu) VALUES (?, ?, ?)`;
-        db.query(insertBencana, [data.id_perangkat, data.jenis_bencana, data.waktu], (err) => {
-          if (err) {
-            console.error('Gagal menyimpan ke kebencanaan:', err);
-          } else {
-            console.log(`Berhasil simpan kebencanaan dari perangkat ID ${data.id_perangkat}`);
-          }
-        });
-      }
-
-      // Kirim ke client WebSocket
-      wss.clients.forEach((wsClient) => {
-        if (wsClient.readyState === WebSocket.OPEN) {
-          wsClient.send(payload);
-        }
-      });
     });
   } catch (e) {
-    console.error('Gagal parse payload JSON:', e);
+    console.error('Gagal memproses pesan MQTT:', e);
   }
 });
 

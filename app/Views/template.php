@@ -9,6 +9,7 @@
     <meta name="author" content="" />
     <title>PEWS | <?= esc($judul ?? '') ?></title>
     <link href="<?= base_url('sb-admin') ?>/css/styles.css" rel="stylesheet" />
+    <link href="<?= base_url('css/kustom.css') ?>" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -31,14 +32,34 @@
             POLIWANGI EARLY WARNING SYSTEM <img src="<?= base_url('aset/img/logo-poliwangi.png') ?>" alt="Logo" style="height: 45px;" class="me-2 ps-2 ">
         </a>
         <!-- Navbar-->
+        <!-- Navbar-->
         <ul class="navbar-nav ms-auto me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw text-white"></i></a>
+                <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw text-white"></i>
+                </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <?php if (session()->has('username') && session()->has('role')) : ?>
+                        <li>
+                            <span class="dropdown-item disabled">
+                                Halo, <?= esc(session('username')) ?> (<?= esc(session('role')) ?>)
+                            </span>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="<?= base_url('logout') ?>">
+                                <i class="fa fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                    <?php else : ?>
+                        <li>
+                            <a class="dropdown-item" href="<?= base_url('login') ?>">
+                                <i class="fa fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <!-- Tombol Notifikasi selalu ada -->
                     <li>
-                        <a class="dropdown-item" href="#!">
-                            <i class="fa fa-sign-in"></i> Login
-                        </a>
                         <button onclick="enableAudio()" class="dropdown-item">
                             <i class="fa fa-volume-up"></i> Notifikasi
                         </button>
@@ -46,33 +67,49 @@
                 </ul>
             </li>
         </ul>
+
+
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark bg-primary" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link text-white" href="<?= base_url('home') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-tachometer-alt"></i></div>
+                        <?php $role = session()->get('role'); ?>
+
+                        <!-- Menu Dashboard: Semua user termasuk publik -->
+                        <a class="nav-link text-white" href="<?= base_url('/home') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt text-white"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link text-white" href="<?= base_url('gedung') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-building"></i></div>
-                            Gedung
-                        </a>
-                        <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-microchip"></i></div>
-                            Perangkat
-                        </a>
-                        <a class="nav-link text-white" href="<?= base_url('laporan') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clipboard-list"></i></div>
-                            Laporan
-                        </a>
-                        <a class="nav-link text-white" href="<?= base_url('riwayat-perangkat') ?>">
-                            <div class="sb-nav-link-icon"><i class=" text-white fas fa-clock-rotate-left"></i></div>
-                            Riwayat
-                        </a>
+
+                        <?php if ($role === 'admin'): ?>
+                            <a class="nav-link text-white" href="<?= base_url('gedung') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-building text-white"></i></div>
+                                Gedung
+                            </a>
+                            <a class="nav-link text-white" href="<?= base_url('perangkat') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-microchip text-white"></i></div>
+                                Perangkat
+                            </a>
+                            <a class="nav-link text-white" href="<?= base_url('riwayat-perangkat') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-clock-rotate-left text-white"></i></div>
+                                Riwayat
+                            </a>
+
+                        <?php elseif ($role === 'keamanan'): ?>
+                            <a class="nav-link text-white" href="<?= base_url('laporan') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list text-white"></i></div>
+                                Laporan
+                            </a>
+                            <a class="nav-link text-white" href="<?= base_url('riwayat-perangkat') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-clock-rotate-left text-white"></i></div>
+                                Riwayat
+                            </a>
+                        <?php endif; ?>
                     </div>
+
                 </div>
             </nav>
         </div>

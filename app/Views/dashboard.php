@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <!-- PETA UTAMA -->
-<div id="map" style="width: 100%; height: 85vh;"></div>
+<div id="map" style="width: 100%; height: 88vh;"></div>
 
 <!-- MODAL DENAH 2D -->
 <div id="modal2D" style="
@@ -72,8 +72,8 @@
 <!-- LEGENDA PETA -->
 <div id="legend" style="
         position: absolute;
-        bottom: 50px;
-        left: 30px; 
+        bottom: 473px;
+        left: 80px; 
         background: rgba(255, 255, 255, 0.9);
         padding: 10px 15px;
         border-radius: 8px;
@@ -119,8 +119,8 @@
         const marker = L.marker([parseFloat(g.latitude), parseFloat(g.longitude)], {
             icon: L.icon({
                 iconUrl: iconUrl,
-                iconSize: [30, 30],
-                iconAnchor: [12, 30],
+                iconSize: [35, 35],
+                iconAnchor: [20, 30],
                 popupAnchor: [0, -30]
             })
         }).addTo(map);
@@ -299,8 +299,12 @@
                 icon: 'warning',
                 title: '🚨 PERINGATAN BAHAYA! 🚨',
                 html: `<strong>Jenis Bencana:</strong> ${data.jenis_bencana}<br>
-                         <strong>Perangkat:</strong> ${data.id_perangkat}<br>
-                         <strong>Tanggal & Waktu:</strong> ${data.waktu}`,
+                       <strong>Perangkat:</strong> ${data.nama_perangkat}<br>
+                       <strong>Lokasi:</strong><br>
+                        <strong>Gedung:</strong>  ${data.gedung}<br>
+                        <strong>Lantai:</strong> ${data.lantai}<br> 
+                        <strong>Ruangan:</strong> ${data.ruangan}<br>
+                       <strong>Tanggal & Waktu:</strong> ${data.waktu}`,
                 backdrop: true,
                 allowOutsideClick: false,
                 confirmButtonText: 'Tutup',

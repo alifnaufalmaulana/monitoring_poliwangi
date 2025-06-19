@@ -31,21 +31,26 @@ class PerangkatController extends BaseController
 
     public function index()
     {
-        $dataPerangkat = $this->perangkatModel
-            ->select('perangkat.*, ruangan.nama_ruangan, lantai.nama_lantai, gedung.nama_gedung')
-            ->join('ruangan', 'perangkat.id_ruangan = ruangan.id_ruangan')
-            ->join('lantai', 'ruangan.id_lantai = lantai.id_lantai')
-            ->join('gedung', 'lantai.id_gedung = gedung.id_gedung')
-            ->findAll();
+        $gedungId  = $this->request->getGet('id_gedung');
+        $lantaiId  = $this->request->getGet('id_lantai');
+        $ruanganId = $this->request->getGet('id_ruangan');
+
+        // Kirim ke model dengan filter
+        $status = $this->request->getGet('status_perangkat');
+        $perangkat = $this->perangkatModel->getFilterPerangkat($gedungId, $lantaiId, $ruanganId, $status);
 
         $data = [
-            'judul' => 'Data Perangkat',
-            'perangkat' => $dataPerangkat,
-            'gedung' => $this->gedungModel->findAll(),
+            'judul'     => 'Perangkat',
+            'perangkat' => $perangkat,
+            'gedung'    => $this->gedungModel->findAll(),
+            'lantai'    => $this->lantaiModel->findAll(),
+            'ruangan'   => $this->ruanganModel->findAll(),
+            'status'    => $status,
         ];
 
         return view('perangkat', $data);
     }
+
 
     // Metode simpan() sekarang hanya untuk INSERT baru
     public function simpan()
