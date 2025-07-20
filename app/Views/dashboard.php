@@ -82,7 +82,7 @@
         z-index: 1000;">
     <strong>Legenda:</strong>
     <div style="display: flex; align-items: center; margin-top: 5px;">
-        <img src="<?= base_url('aset/img/marker_biru.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Gedung
+        <img src="<?= base_url('aset/img/marker_biru3.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Gedung
     </div>
     <div style="display: flex; align-items: center; margin-top: 5px;">
         <img src="<?= base_url('aset/img/ic_tower.png'); ?>" width="15" height="15" style="margin-right: 8px;"> Lokasi Menara
@@ -93,16 +93,11 @@
 <audio id="notif-audio" src="<?= base_url('aset/alarm/alarm1.mp3') ?>" loop></audio>
 
 <!-- LIBRARY -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
+<!-- <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
 <script>
-    // Pastikan baseURL sudah didefinisikan di template induk atau disini:
     const baseURL = '<?= base_url(); ?>/';
 
-    // Data gedung dari controller ke view
-    const gedungMarkers = <?= json_encode($gedung) ?>;
-
-    const map = L.map('map').setView([-8.294, 114.3067], 17);
+    const map = L.map('map').setView([-8.293963604104558, 114.3074745496168], 17);
 
     L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
         maxZoom: 20,
@@ -110,10 +105,20 @@
         attribution: 'Google',
     }).addTo(map);
 
+    const gedungMarkers = <?= json_encode($gedung) ?>;
+    const gedungMarkerMap = {};
+    console.log(gedungMarkers);
+
+    // Inisialisasi marker untuk setiap gedung
     gedungMarkers.forEach(g => {
-        let iconUrl = '<?= base_url('aset/img/marker_biru.png'); ?>';
+        let iconUrl;
+
         if (g.tipe === 'menara') {
             iconUrl = '<?= base_url('aset/img/ic_tower.png'); ?>';
+        } else {
+            iconUrl = (g.status_gedung === 'bahaya') ?
+                '<?= base_url('aset/img/marker_merah.png'); ?>' :
+                '<?= base_url('aset/img/marker_biru3.png'); ?>';
         }
 
         const marker = L.marker([parseFloat(g.latitude), parseFloat(g.longitude)], {
@@ -125,22 +130,15 @@
             })
         }).addTo(map);
 
-        // Pastikan g.denah berisi nama file gambar, misalnya "2.jpg"
-        if (g.tipe === 'menara') {
-            marker.bindPopup(
-                `<b>${g.nama_gedung}</b><br>
-             <button onclick="lihatTower(${g.id_gedung}, '${g.nama_gedung}', '${g.denah}')">Lihat Menara</button>`
-            );
-        } else {
-            marker.bindPopup(
-                `<b>${g.nama_gedung}</b><br>
-             <button onclick="showDenah(${g.id_gedung}, '${g.nama_gedung}')">Lihat Denah</button>`
-            );
-        }
+        gedungMarkerMap[g.id_gedung] = marker;
+
+        const popupHtml = (g.tipe === 'menara') ?
+            `<b>${g.nama_gedung}</b><br><button onclick="lihatTower(${g.id_gedung}, '${g.nama_gedung}', '${g.denah}')">Lihat Menara</button>` :
+            `<b>${g.nama_gedung}</b><br><button onclick="showDenah(${g.id_gedung}, '${g.nama_gedung}')">Lihat Denah</button>`;
+
+        marker.bindPopup(popupHtml);
     });
 
-
-    // Modal dan denah
     const modal = document.getElementById('modal2D');
     const floorplanImage = document.getElementById('floorplanImage');
     const markersOnFloorplan = document.getElementById('markersOnFloorplan');
@@ -149,7 +147,7 @@
 
     let currentGedungId = null;
     let lantaiData = [];
-    let dangerAudio = null; // Variabel untuk menyimpan referensi audio agar bisa diakses secara global
+    let dangerAudio = null;
 
     function showDenah(gedungId, gedungName) {
         currentGedungId = gedungId;
@@ -175,7 +173,7 @@
                     selectLantai.appendChild(option);
                 });
 
-                // Pilih lantai pertama otomatis
+                // Pilih lantai pertama secara otomatis
                 selectLantai.value = data[0].id_lantai;
                 selectLantai.dispatchEvent(new Event('change'));
             })
@@ -185,7 +183,7 @@
     }
 
 
-    // Saat lantai dipilih, tampilkan gambar denahnya
+    // Menampilkan denah sesuai dengan lantai yang dipilih
     selectLantai.addEventListener('change', function() {
         const lantaiId = this.value;
         if (!lantaiId) {
@@ -193,14 +191,14 @@
             markersOnFloorplan.innerHTML = '';
             return;
         }
-        const lantai = lantaiData.find(l => l.id_lantai == lantaiId); // pakai id_lantai
+        const lantai = lantaiData.find(l => l.id_lantai == lantaiId);
         if (!lantai) return;
 
         // Set gambar denah lantai
-        floorplanImage.src = '<?= base_url('aset/denah/'); ?>' + lantai.denah; // pakai denah sesuai model
+        floorplanImage.src = '<?= base_url('aset/denah/'); ?>' + lantai.denah;
         markersOnFloorplan.innerHTML = '';
 
-        // Ambil data perangkat untuk lantai ini
+        // Ambil data perangkat untuk lantai yang dipilih
         fetch(`${baseURL}api/perangkat/lantai/${lantaiId}`)
             .then(res => res.json())
             .then(perangkat => {
@@ -215,7 +213,7 @@
                     marker.style.transform = 'translate(-50%, -50%)';
                     marker.title = p.nama_perangkat;
 
-                    // Tambahkan warna dinamis
+                    // menambahkan warna dinamis
                     if (p.status_perangkat === 'aktif') {
                         marker.style.backgroundColor = 'green';
                     } else if (p.status_perangkat === 'mati') {
@@ -246,7 +244,6 @@
     function lihatTower(id, nama, denah) {
         document.getElementById('towerTitle').textContent = `Menara: ${nama}`;
 
-        // Gunakan nama file gambar dari parameter `denah`
         const imagePath = '<?= base_url('aset/denah/'); ?>' + denah;
 
         const towerImage = document.getElementById('towerImage');
@@ -255,7 +252,6 @@
         // Tampilkan modal
         document.getElementById('modalTower').style.display = 'flex';
     }
-
 
     function closeTower() {
         document.getElementById('modalTower').style.display = 'none';
@@ -272,58 +268,91 @@
         });
     }
 
-    // Koneksi WebSocket ke server Node.js kamu
-    const socket = new WebSocket("ws://localhost:8080"); // Ganti jika dihosting
+    // Fungsi untuk mencari gedung berdasarkan id perangkat
+    function getGedungIdByPerangkat(idPerangkat) {
+        for (const gedung of gedungMarkers) {
+            if (Array.isArray(gedung.perangkat) && gedung.perangkat.includes(idPerangkat)) {
+                return gedung.id_gedung;
+            }
+        }
+        return null;
+    }
 
-    socket.onopen = function() {
-        console.log("WebSocket tersambung.");
-    };
+    // Koneksi WebSocket ke server Node.js
+    socket.onopen = () => console.log("WebSocket tersambung.");
 
     socket.onmessage = function(event) {
-        const data = JSON.parse(event.data);
-        console.log("Data dari WebSocket:", data);
+        try {
+            const data = JSON.parse(event.data);
+            console.log("Data WebSocket:", data);
 
-        if (data.status_perangkat === 'bahaya') {
-            // Inisialisasi audio jika belum ada
-            if (!dangerAudio) {
-                dangerAudio = document.getElementById('notif-audio');
+            const status = data.status_perangkat;
+            const idGedung = data.id_gedung;
+
+            console.log("ID Gedung:", idGedung);
+            console.log("Apakah marker ditemukan:", gedungMarkerMap[idGedung] ? 'YA' : 'TIDAK');
+
+            if (status === 'bahaya') {
+                if (!dangerAudio) {
+                    dangerAudio = document.getElementById('notif-audio');
+                }
+                dangerAudio.play().catch(err => console.warn('Audio gagal diputar:', err));
+
+                const toast = Toastify({
+                    text: `
+                🚨 PERINGATAN BAHAYA! 🚨
+                Jenis Bencana: ${data.jenis_bencana}
+                Perangkat: ${data.nama_perangkat}
+                Lokasi:
+                Gedung ${data.gedung}
+                ${data.lantai}
+                Ruangan: ${data.ruangan}
+                Waktu: ${data.waktu}
+                `,
+                    duration: 10000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    style: {
+                        background: "linear-gradient(to right, #f27121, #e94057)"
+                    },
+                    stopOnFocus: true
+                });
+
+                toast.showToast();
+
+                const toasts = document.querySelectorAll(".toastify");
+                const lastToast = toasts[toasts.length - 1];
+                if (lastToast) {
+                    const closeBtn = lastToast.querySelector(".toast-close");
+                    if (closeBtn) {
+                        closeBtn.addEventListener("click", () => {
+                            dangerAudio.pause();
+                            dangerAudio.currentTime = 0;
+                        });
+                    }
+                }
             }
 
-            // Putar audio notifikasi
-            dangerAudio.play().catch(err => {
-                console.warn('Audio gagal diputar:', err);
-            });
+            // Update marker icon gedung jika ada status bahaya
+            if (gedungMarkerMap[idGedung]) {
+                let newIconUrl = (status === 'bahaya') ?
+                    '<?= base_url('aset/img/marker_merah.png'); ?>' :
+                    '<?= base_url('aset/img/marker_biru3.png'); ?>';
 
-            // Tampilkan notifikasi visual dengan SweetAlert
-            Swal.fire({
-                icon: 'warning',
-                title: '🚨 PERINGATAN BAHAYA! 🚨',
-                html: `<strong>Jenis Bencana:</strong> ${data.jenis_bencana}<br>
-                       <strong>Perangkat:</strong> ${data.nama_perangkat}<br>
-                       <strong>Lokasi:</strong><br>
-                        <strong>Gedung:</strong>  ${data.gedung}<br>
-                        <strong>Lantai:</strong> ${data.lantai}<br> 
-                        <strong>Ruangan:</strong> ${data.ruangan}<br>
-                       <strong>Tanggal & Waktu:</strong> ${data.waktu}`,
-                backdrop: true,
-                allowOutsideClick: false,
-                confirmButtonText: 'Tutup',
-                showConfirmButton: true
-            }).then((result) => {
-                // Hentikan audio saat tombol "Tutup" diklik atau SweetAlert ditutup
-                if (dangerAudio) {
-                    dangerAudio.pause();
-                    dangerAudio.currentTime = 0; // Mengatur ulang waktu audio ke awal
-                    console.log('Audio dihentikan.');
-                }
-            });
+                gedungMarkerMap[idGedung].setIcon(L.icon({
+                    iconUrl: newIconUrl,
+                    iconSize: [35, 35],
+                    iconAnchor: [20, 30],
+                    popupAnchor: [0, -30]
+                }));
+
+                console.log(`Marker gedung ${idGedung} diperbarui menjadi ${status}`);
+            }
+
+        } catch (err) {
+            console.error('Gagal memproses data WebSocket:', err);
         }
-
-        // Kamu bisa update tampilan status perangkat juga di sini...
-    };
-
-    socket.onerror = function(err) {
-        console.error("WebSocket error:", err);
     };
 </script>
 

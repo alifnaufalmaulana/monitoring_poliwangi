@@ -19,44 +19,45 @@ class ApiController extends ResourceController
 
     public function __construct()
     {
-        $this->gedungModel = new GedungModel();
-        $this->lantaiModel = new LantaiModel();
-        $this->ruanganModel = new RuanganModel();
+        $this->gedungModel    = new GedungModel();
+        $this->lantaiModel    = new LantaiModel();
+        $this->ruanganModel   = new RuanganModel();
         $this->perangkatModel = new PerangkatModel();
-        $this->riwayatModel = new RiwayatModel();
+        $this->riwayatModel   = new RiwayatModel();
     }
 
-    // ✅ API untuk semua gedung
+    // Ambil semua gedung
     public function getGedung()
     {
         $data = $this->gedungModel->findAll();
         return $this->respond($data);
     }
 
-    // ✅ API untuk lantai berdasarkan id_gedung
+    // Ambil lantai berdasarkan id_gedung
     public function getLantaiByGedung($id_gedung)
     {
         $data = $this->lantaiModel->where('id_gedung', $id_gedung)->findAll();
         return $this->respond($data);
     }
 
-    // ✅ API untuk ruangan berdasarkan id_lantai (perbaikan dilakukan di sini)
+    // Ambil ruangan berdasarkan id_lantai
     public function getRuanganByLantai($id_lantai)
     {
         $data = $this->ruanganModel->where('id_lantai', $id_lantai)->findAll();
         return $this->respond($data);
     }
 
-    // ✅ API untuk perangkat berdasarkan lantai (status terakhir)
+    // Ambil perangkat di lantai tertentu, beserta status terakhirnya
     public function getPerangkatByLantai($id_lantai)
     {
-        // Jika tidak login, kembalikan array kosong (publik tidak bisa lihat marker)
+        // Cegah akses jika belum login
         if (!session()->has('logged_in')) {
             return $this->response->setJSON([]);
         }
 
         $db = \Config\Database::connect();
 
+        // Subquery untuk ambil id_riwayat terakhir dari masing-masing perangkat
         $subquery = $db->table('riwayat_perangkat')
             ->select('MAX(id_riwayat) as max_id')
             ->join('perangkat', 'perangkat.id_perangkat = riwayat_perangkat.id_perangkat')
@@ -64,6 +65,7 @@ class ApiController extends ResourceController
             ->where('ruangan.id_lantai', $id_lantai)
             ->groupBy('riwayat_perangkat.id_perangkat');
 
+        // Ambil data perangkat dan status terakhirnya
         $builder = $db->table('riwayat_perangkat');
         $builder->select('perangkat.id_perangkat, perangkat.nama_perangkat, perangkat.pos_x, perangkat.pos_y, riwayat_perangkat.status_perangkat');
         $builder->join('perangkat', 'perangkat.id_perangkat = riwayat_perangkat.id_perangkat');
@@ -76,18 +78,19 @@ class ApiController extends ResourceController
         return $this->response->setJSON($result);
     }
 
-    // Method baru untuk mendapatkan detail lokasi berdasarkan ID perangkat
+    // Ambil detail lokasi perangkat berdasarkan id_perangkat
     public function getPerangkatDetails($id_perangkat)
     {
         $perangkatDetail = $this->perangkatModel->getLokasiPerangkat($id_perangkat);
+
         if ($perangkatDetail) {
             return $this->response->setJSON([
                 'status' => 'success',
-                'data' => $perangkatDetail
+                'data'   => $perangkatDetail
             ]);
         } else {
             return $this->response->setJSON([
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => 'Detail perangkat tidak ditemukan.'
             ], 404);
         }

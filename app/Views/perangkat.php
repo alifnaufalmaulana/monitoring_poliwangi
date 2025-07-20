@@ -76,7 +76,7 @@
             </div>
 
             <!-- FORM FILTER -->
-            <form method="get" action="<?= base_url('perangkat') ?>" class="row g-3 mb-4">
+            <form id="formFilter" method="get" action="<?= base_url('perangkat') ?>" class="row g-3 mb-4">
 
                 <!-- GEDUNG -->
                 <div class="col-md-3">
@@ -117,22 +117,12 @@
                     </select>
                 </div>
 
-                <!-- STATUS PERANGKAT -->
-                <div class="col-md-3">
-                    <label class="form-label">Status Perangkat</label>
-                    <select name="status_perangkat" class="form-select">
-                        <option value="">-- Pilih Status --</option>
-                        <option value="aktif" <?= ($status === 'aktif') ? 'selected' : '' ?>>Aktif</option>
-                        <option value="mati" <?= ($status === 'mati') ? 'selected' : '' ?>>Mati</option>
-                    </select>
-
-                </div>
-
                 <div class="col-md-3 align-self-end">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Filter</button>
                     <a href="<?= base_url('perangkat') ?>" class="btn btn-secondary">Reset</a>
                 </div>
             </form>
+
 
             <div id="tabelPerangkat" class="card mb-4 shadow-sm">
                 <div class="card-body">
@@ -143,7 +133,6 @@
                                     <th>No</th>
                                     <th>Nama Perangkat</th>
                                     <th>Posisi</th>
-                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -157,19 +146,6 @@
                                             Gedung: <?= esc($p['nama_gedung']) ?><br>
                                             Lantai: <?= esc($p['nama_lantai']) ?><br>
                                             Ruangan: <?= esc($p['nama_ruangan']) ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            $status = strtolower($p['status_perangkat']);
-                                            $badgeClass = match ($status) {
-                                                'aktif' => 'badge bg-success',
-                                                'mati' => 'badge bg-secondary',
-                                                default => 'badge bg-warning',
-                                            };
-                                            ?>
-                                            <span class="<?= $badgeClass ?>">
-                                                <?= ucfirst($status) ?>
-                                            </span>
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-warning btn-edit" data-id="<?= $p['id_perangkat'] ?>">
@@ -200,19 +176,22 @@
     const koordinatTeks = document.getElementById('koordinatTeks');
     const formPerangkat = document.getElementById('formPerangkat');
     const idPerangkatInput = document.getElementById('id_perangkat');
-    const tabelPerangkat = document.getElementById('tabelPerangkat'); // <<< BARU: Referensi ke elemen tabel
+    const tabelPerangkat = document.getElementById('tabelPerangkat');
+    const formFilter = document.getElementById('formFilter');
 
     btnTambah.addEventListener('click', () => {
         resetForm();
-        formPerangkat.action = '<?= base_url('/perangkat/simpan') ?>'; // Set action untuk simpan baru
+        formPerangkat.action = '<?= base_url('/perangkat/simpan') ?>';
         formTambah.style.display = 'block';
+        formFilter.style.display = 'none';
         btnTambah.style.display = 'none';
-        tabelPerangkat.style.display = 'none'; // <<< BARU: Sembunyikan tabel
+        tabelPerangkat.style.display = 'none';
     });
 
     btnBatal.addEventListener('click', () => {
         resetForm();
-        tabelPerangkat.style.display = 'block'; // <<< BARU: Tampilkan kembali tabel saat batal
+        tabelPerangkat.style.display = 'block';
+        formFilter.style.display = 'flex';
     });
 
     function resetForm() {
@@ -263,7 +242,6 @@
         const lantaiSelect = document.getElementById('lantaiSelect');
         const ruanganSelect = document.getElementById('ruanganSelect');
 
-        // Saat memilih GEDUNG
         gedungSelect.addEventListener('change', function() {
             const gedungId = this.value;
             lantaiSelect.innerHTML = '<option value="">-- Pilih Lantai --</option>';
@@ -280,7 +258,6 @@
             }
         });
 
-        // Saat memilih LANTAI
         lantaiSelect.addEventListener('change', function() {
             const lantaiId = this.value;
             ruanganSelect.innerHTML = '<option value="">-- Pilih Ruangan --</option>';
@@ -353,11 +330,10 @@
                     if (data.denah) {
                         denahImage.src = `<?= base_url('aset/denah') ?>/${data.denah}`;
                         denahContainer.style.display = 'block';
-                        // Jika sedang edit dan ada koordinat, tampilkan marker
                         if (idPerangkatInput.value && document.getElementById('pos_x').value && document.getElementById('pos_y').value) {
                             tampilkanMarker(document.getElementById('pos_x').value, document.getElementById('pos_y').value);
                         } else {
-                            markersOnFloorplan.innerHTML = ''; // Pastikan marker kosong jika bukan edit
+                            markersOnFloorplan.innerHTML = '';
                             koordinatTeks.textContent = 'Belum dipilih';
                             document.getElementById('pos_x').value = '';
                             document.getElementById('pos_y').value = '';
@@ -397,9 +373,9 @@
         tampilkanMarker(percentX, percentY);
     });
 
-    // Menangani submit form dengan SweetAlert
+    // SweetAlert
     formPerangkat.addEventListener('submit', function(e) {
-        e.preventDefault(); // Mencegah submit default
+        e.preventDefault();
 
         if (!validateKoordinat()) {
             return;
@@ -418,7 +394,7 @@
             if (result.isConfirmed) {
                 const formData = new FormData(formPerangkat);
                 const url = formPerangkat.action;
-                const method = 'POST'; // Tetap POST, CI4 akan menangani PUT/PATCH via method spoofing jika perlu
+                const method = 'POST';
 
                 fetch(url, {
                         method: method,
@@ -461,14 +437,15 @@
     document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.dataset.id;
-            formPerangkat.action = `<?= base_url('/perangkat/update') ?>/${id}`; // Set action untuk update
+            formPerangkat.action = `<?= base_url('/perangkat/update') ?>/${id}`;
 
             fetch(`<?= base_url('perangkat/getPerangkat') ?>/${id}`)
                 .then(response => response.json())
                 .then(data => {
                     btnTambah.style.display = 'none';
                     formTambah.style.display = 'block';
-                    tabelPerangkat.style.display = 'none'; // <<< BARU: Sembunyikan tabel saat mode edit
+                    formFilter.style.display = 'none';
+                    tabelPerangkat.style.display = 'none';
                     idPerangkatInput.value = data.id_perangkat;
                     document.getElementById('nama_perangkat').value = data.nama_perangkat;
                     document.getElementById('jenis_perangkat').value = data.jenis_perangkat;
@@ -522,7 +499,7 @@
         });
     });
 
-    // tombol hapus dengan SweetAlert (tidak ada perubahan di sini)
+    // tombol hapus dengan SweetAlert 
     document.querySelectorAll('.btn-hapus').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.dataset.id;
@@ -574,7 +551,6 @@
         });
     });
 
-    // Check for flashdata messages (from CodeIgniter controller)
     <?php if (session()->getFlashdata('message')): ?>
         Swal.fire({
             icon: '<?= session()->getFlashdata('type') ?>',

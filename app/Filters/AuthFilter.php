@@ -12,10 +12,12 @@ class AuthFilter implements FilterInterface
     {
         $role = session()->get('role');
 
+        // Cek apakah pengguna sudah login
         if (!session()->get('logged_in')) {
-            return redirect()->to('/dashboard'); // publik diarahkan ke dashboard
+            return redirect()->to('/dashboard'); // Jika belum login, arahkan ke dashboard
         }
 
+        // Cek apakah peran pengguna sesuai dengan yang diizinkan
         if ($arguments) {
             if (!in_array($role, $arguments)) {
                 return redirect()->to('/dashboard')->with('error', 'Akses ditolak!');

@@ -10,6 +10,7 @@ const db = mysql.createConnection({
   password: '',
   database: 'monitor_bencana',
 });
+
 db.connect((err) => {
   if (err) {
     console.error('Gagal terhubung ke database:', err);
@@ -21,100 +22,113 @@ db.connect((err) => {
 // Ubah query callback jadi async/await
 const query = util.promisify(db.query).bind(db);
 
-// Membuat WebSocket server
+// Buat WebSocket server di port 8080
 const wss = new WebSocket.Server({ port: 8080 });
 
-// Koneksi ke broker MQTT
+// Koneksi ke broker MQTT publik (mosquitto)
 const client = mqtt.connect('ws://test.mosquitto.org:8080');
 
 client.on('connect', () => {
-  console.log('Terhubung ke broker MQTT Lokal');
+  console.log('Terhubung ke broker MQTT Mosquitto');
 
-  client.subscribe('monitoring/perangkat/+', (err) => {
+  // Subscribe ke topik untuk menerima data dari perangkat
+  client.subscribe('menara_poliwangi', (err) => {
     if (err) {
       console.error('Gagal subscribe:', err);
     } else {
-      console.log("Berhasil subscribe ke topik 'monitoring/perangkat/+'");
+      console.log("Berhasil subscribe ke topik 'menara_poliwangi'");
     }
   });
 });
 
-// Saat menerima pesan dari MQTT
+// Tangani pesan yang diterima dari MQTT
 client.on('message', async (topic, message) => {
   const payload = message.toString();
   console.log(`Pesan diterima dari [${topic}]: ${payload}`);
 
   try {
-    const data = JSON.parse(payload);
+    const parsed = JSON.parse(payload);
+    const dataArray = Array.isArray(parsed) ? parsed : [parsed];
 
-    // Simpan/update posisi perangkat
-    if (data.latitude && data.longitude) {
-      await query(`UPDATE perangkat SET latitude = ?, longitude = ? WHERE id_perangkat = ?`, [data.latitude, data.longitude, data.id_perangkat]);
-      console.log(`Update posisi perangkat ID ${data.id_perangkat}`);
-    }
-
-    // Proses penyimpanan riwayat
-    const results = await query('SELECT status_perangkat, aksi, waktu FROM riwayat_perangkat WHERE id_perangkat = ? ORDER BY waktu DESC LIMIT 1', [data.id_perangkat]);
-
-    if (results.length === 0) {
-      await query(`INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)`, [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu]);
-      console.log(`Insert riwayat pertama perangkat ID ${data.id_perangkat}`);
-    } else {
-      const last = results[0];
-
-      if (last.status_perangkat === data.status_perangkat && last.aksi === data.aksi && last.waktu !== data.waktu) {
-        await query(`UPDATE riwayat_perangkat SET waktu = ? WHERE id_perangkat = ? AND waktu = ?`, [data.waktu, data.id_perangkat, last.waktu]);
-      } else if (last.status_perangkat === data.status_perangkat && last.aksi !== data.aksi) {
-        await query(`UPDATE riwayat_perangkat SET aksi = ?, waktu = ? WHERE id_perangkat = ? AND waktu = ?`, [data.aksi, data.waktu, data.id_perangkat, last.waktu]);
-      } else if (last.status_perangkat !== data.status_perangkat || last.aksi !== data.aksi || last.waktu !== data.waktu) {
-        await query(`INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)`, [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu]);
+    for (const data of dataArray) {
+      // Update posisi perangkat jika ada koordinat GPS
+      if (data.latitude && data.longitude) {
+        await query('UPDATE perangkat SET lat = ?, `long` = ? WHERE id_perangkat = ?', [data.latitude, data.longitude, data.id_perangkat]);
+        console.log(`Update posisi perangkat ID ${data.id_perangkat}`);
       }
-    }
 
-    // Simpan ke kebencanaan jika status bahaya
-    if (data.status_perangkat === 'bahaya' && data.jenis_bencana) {
-      await query(`INSERT INTO kebencanaan (id_perangkat, jenis_bencana, waktu) VALUES (?, ?, ?)`, [data.id_perangkat, data.jenis_bencana, data.waktu]);
-      console.log(`Bahaya! Disimpan ke kebencanaan dari perangkat ID ${data.id_perangkat}`);
-    }
+      // Cek riwayat terbaru perangkat
+      const results = await query('SELECT status_perangkat, aksi, waktu FROM riwayat_perangkat WHERE id_perangkat = ? ORDER BY waktu DESC LIMIT 1', [data.id_perangkat]);
 
-    // Ambil nama perangkat + lokasi berdasarkan id_perangkat
-    const lokasiResult = await query(
-      `
-      SELECT p.nama_perangkat, g.nama_gedung, l.nama_lantai, r.nama_ruangan
-      FROM perangkat p
-      JOIN ruangan r ON p.id_ruangan = r.id_ruangan
-      JOIN lantai l ON r.id_lantai = l.id_lantai
-      JOIN gedung g ON l.id_gedung = g.id_gedung
-      WHERE p.id_perangkat = ?
-      `,
-      [data.id_perangkat]
-    );
+      if (results.length === 0) {
+        // Jika belum ada riwayat, insert baru
+        await query('INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)', [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu]);
+        console.log(`Insert riwayat pertama perangkat ID ${data.id_perangkat}`);
+      } else {
+        const last = results[0];
 
-    const lokasi = lokasiResult[0] || {
-      nama_perangkat: 'Tidak diketahui',
-      nama_gedung: 'Tidak diketahui',
-      nama_lantai: 'Tidak diketahui',
-      nama_ruangan: 'Tidak diketahui',
-    };
-
-    const dataLengkap = {
-      ...data,
-      nama_perangkat: lokasi.nama_perangkat,
-      gedung: lokasi.nama_gedung,
-      lantai: lokasi.nama_lantai,
-      ruangan: lokasi.nama_ruangan,
-    };
-
-    // Kirim ke semua klien WebSocket
-    wss.clients.forEach((wsClient) => {
-      if (wsClient.readyState === WebSocket.OPEN) {
-        wsClient.send(JSON.stringify(dataLengkap));
+        // Update waktu jika status dan aksi sama tapi waktunya beda
+        if (last.status_perangkat === data.status_perangkat && last.aksi === data.aksi && last.waktu !== data.waktu) {
+          await query('UPDATE riwayat_perangkat SET waktu = ? WHERE id_perangkat = ? AND waktu = ?', [data.waktu, data.id_perangkat, last.waktu]);
+        }
+        // Update aksi jika aksi berubah, tapi status sama
+        else if (last.status_perangkat === data.status_perangkat && last.aksi !== data.aksi) {
+          await query('UPDATE riwayat_perangkat SET aksi = ?, waktu = ? WHERE id_perangkat = ? AND waktu = ?', [data.aksi, data.waktu, data.id_perangkat, last.waktu]);
+        }
+        // Jika semua berbeda, masukkan riwayat baru
+        else if (last.status_perangkat !== data.status_perangkat || last.aksi !== data.aksi || last.waktu !== data.waktu) {
+          await query('INSERT INTO riwayat_perangkat (id_perangkat, status_perangkat, aksi, waktu) VALUES (?, ?, ?, ?)', [data.id_perangkat, data.status_perangkat, data.aksi, data.waktu]);
+        }
       }
-    });
+
+      // Jika status bahaya, simpan ke kebencanaan
+      if (data.status_perangkat === 'bahaya' && data.jenis_bencana) {
+        await query('INSERT INTO kebencanaan (id_perangkat, jenis_bencana, waktu) VALUES (?, ?, ?)', [data.id_perangkat, data.jenis_bencana, data.waktu]);
+        console.log(`Bahaya! Disimpan ke kebencanaan dari perangkat ID ${data.id_perangkat}`);
+      }
+
+      // Ambil info lokasi perangkat
+      const lokasiResult = await query(
+        `SELECT p.nama_perangkat, g.id_gedung, g.nama_gedung, l.nama_lantai, r.nama_ruangan
+        FROM perangkat p
+        JOIN ruangan r ON p.id_ruangan = r.id_ruangan
+        JOIN lantai l ON r.id_lantai = l.id_lantai
+        JOIN gedung g ON l.id_gedung = g.id_gedung
+        WHERE p.id_perangkat = ?`,
+        [data.id_perangkat]
+      );
+
+      // Jika lokasi tidak ditemukan, beri nilai default
+      const lokasi = lokasiResult[0] || {
+        nama_perangkat: 'Tidak diketahui',
+        id_gedung: null,
+        nama_gedung: 'Tidak diketahui',
+        nama_lantai: 'Tidak diketahui',
+        nama_ruangan: 'Tidak diketahui',
+      };
+
+      // Gabungkan data asli dengan informasi lokasi
+      const dataLengkap = {
+        ...data,
+        nama_perangkat: lokasi.nama_perangkat,
+        id_gedung: lokasi.id_gedung,
+        gedung: lokasi.nama_gedung,
+        lantai: lokasi.nama_lantai,
+        ruangan: lokasi.nama_ruangan,
+      };
+
+      // Kirim data ke semua klien WebSocket yang terhubung
+      wss.clients.forEach((wsClient) => {
+        if (wsClient.readyState === WebSocket.OPEN) {
+          wsClient.send(JSON.stringify(dataLengkap));
+        }
+      });
+    }
   } catch (e) {
     console.error('Gagal memproses pesan MQTT:', e);
   }
 });
+
 
 // const mqtt = require('mqtt');
 // const mysql = require('mysql');

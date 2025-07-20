@@ -11,12 +11,14 @@ class GedungController extends BaseController
     public function index(): string
     {
         $model = new GedungModel();
+
+        // Ambil semua data gedung dari tabel 'gedung'
         $dataGedung = $model
             ->select('gedung.*')
             ->findAll();
 
         $data = [
-            'judul' => 'Data Gedung',
+            'judul' => 'Data Bangunan Poliwangi',
             'gedung' => $dataGedung,
         ];
 

@@ -18,20 +18,24 @@
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
     <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 </head>
 
 <body>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
+
         <!-- Sidebar Toggle-->
         <button class="btn btn-lg text-white order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button>
+
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-2 fs-4 d-flex align-items-center" href="<?= base_url('home') ?>">
             POLIWANGI EARLY WARNING SYSTEM <img src="<?= base_url('aset/img/logo-poliwangi.png') ?>" alt="Logo" style="height: 45px;" class="me-2 ps-2 ">
         </a>
-        <!-- Navbar-->
+
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto me-lg-4">
             <li class="nav-item dropdown">
@@ -57,11 +61,9 @@
                             </a>
                         </li>
                     <?php endif; ?>
-
-                    <!-- Tombol Notifikasi selalu ada -->
                     <li>
                         <button onclick="enableAudio()" class="dropdown-item">
-                            <i class="fa fa-volume-up"></i> Notifikasi
+                            <i class="fa fa-volume-up"></i> Aktifkan Suara
                         </button>
                     </li>
                 </ul>
@@ -78,12 +80,13 @@
                     <div class="nav">
                         <?php $role = session()->get('role'); ?>
 
-                        <!-- Menu Dashboard: Semua user termasuk publik -->
+                        <!-- Menu Dashboard -->
                         <a class="nav-link text-white" href="<?= base_url('/home') ?>">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt text-white"></i></div>
                             Dashboard
                         </a>
 
+                        <!-- Menu untuk Role Pihak Admin -->
                         <?php if ($role === 'admin'): ?>
                             <a class="nav-link text-white" href="<?= base_url('gedung') ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-building text-white"></i></div>
@@ -98,6 +101,7 @@
                                 Riwayat
                             </a>
 
+                            <!-- Menu untuk Role Pihak Keamanan -->
                         <?php elseif ($role === 'keamanan'): ?>
                             <a class="nav-link text-white" href="<?= base_url('laporan') ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list text-white"></i></div>

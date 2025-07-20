@@ -11,9 +11,6 @@ $routes->get('login', 'AuthController::login');
 $routes->post('login', 'AuthController::doLogin');
 $routes->get('logout', 'AuthController::logout');
 
-// Dashboard berdasarkan role
-$routes->get('admin/dashboard', 'AdminController::dashboard', ['filter' => 'auth:admin']);
-$routes->get('keamanan/dashboard', 'KeamananController::dashboard', ['filter' => 'auth:keamanan']);
 
 // API
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
@@ -24,11 +21,16 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes)
     $routes->get('perangkat/lantai/(:num)', 'ApiController::getPerangkatByLantai/$1');
 });
 
+
 // Halaman Umum
 $routes->get('home', 'Home::index');
 
-// Riwayat perangkat
-$routes->get('/riwayat-perangkat', 'RiwayatController::index', ['filter' => 'role']);
+
+// Akses riwayat perangkat untuk admin dan keamanan
+$routes->group('', ['filter' => 'role:admin,keamanan'], function ($routes) {
+    $routes->get('riwayat-perangkat', 'RiwayatController::index');
+});
+
 
 // ========== GROUP ADMIN ==========
 $routes->group('', ['filter' => 'role:admin'], function ($routes) {
@@ -57,8 +59,4 @@ $routes->group('', ['filter' => 'role:keamanan'], function ($routes) {
     $routes->get('laporan/edit/(:num)', 'LaporanController::edit/$1');
     $routes->post('laporan/update/(:num)', 'LaporanController::update/$1');
     $routes->delete('laporan/hapus/(:num)', 'LaporanController::hapus/$1');
-});
-
-$routes->group('', ['filter' => 'role:admin,keamanan'], function ($routes) {
-    $routes->get('riwayat-perangkat', 'RiwayatController::index');
 });

@@ -24,7 +24,7 @@
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Tampilkan error jika ada -->
+                                    <!-- Tampilkan error  -->
                                     <?php if (session()->getFlashdata('error')) : ?>
                                         <div class="alert alert-danger">
                                             <?= session()->getFlashdata('error') ?>

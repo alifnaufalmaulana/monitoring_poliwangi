@@ -58,10 +58,10 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <p class="mb-1">
-                                    **Lokasi Perangkat Terpilih:**
-                                    <span id="lokasi_gedung_display">N/A</span>,
-                                    <span id="lokasi_lantai_display">N/A</span>,
-                                    <span id="lokasi_ruangan_display">N/A</span>
+                                    <strong>Lokasi Perangkat Terpilih:</strong>
+                                    <span id="lokasi_gedung_display"> - </span>,
+                                    <span id="lokasi_lantai_display"> - </span>,
+                                    <span id="lokasi_ruangan_display"> - </span>
                                 </p>
                             </div>
                         </div>
@@ -100,9 +100,9 @@
                                         <td><?= esc($row['nama_perangkat']) ?></td>
                                         <td><?= esc($row['nama_bencana']) ?></td>
                                         <td>
-                                            Gedung: <?= esc($row['nama_gedung'] ?? 'N/A') ?><br>
-                                            Lantai: <?= esc($row['nama_lantai'] ?? 'N/A') ?><br>
-                                            Ruangan: <?= esc($row['nama_ruangan'] ?? 'N/A') ?>
+                                            Gedung: <?= esc($row['nama_gedung'] ?? ' - ') ?><br>
+                                            Lantai: <?= esc($row['nama_lantai'] ?? ' - ') ?><br>
+                                            Ruangan: <?= esc($row['nama_ruangan'] ?? ' - ') ?>
                                         </td>
                                         <td><?= esc($row['status_bencana']) ?></td>
                                         <td><?= esc($row['deskripsi']) ?></td>
@@ -149,43 +149,40 @@
         formLaporan.action = '<?= base_url('/laporan/simpan') ?>';
         formTambahEdit.style.display = 'block';
         btnTambah.style.display = 'none';
-        tabelLaporan.style.display = 'none'; // Sembunyikan container tabel
+        tabelLaporan.style.display = 'none'; 
     });
 
     btnBatal.addEventListener('click', () => {
         resetForm();
-        tabelLaporan.style.display = 'block'; // Tampilkan kembali container tabel
+        tabelLaporan.style.display = 'block'; 
     });
 
     function resetForm() {
         formLaporan.reset();
         idLaporanInput.value = '';
-        // Penting: Reset hidden input dan display lokasi di sini juga!
         idRuanganTerpilihInput.value = '';
-        lokasiGedungDisplay.textContent = '';
-        lokasiLantaiDisplay.textContent = 'N/A';
-        lokasiRuanganDisplay.textContent = 'N/A';
+        lokasiGedungDisplay.textContent = ' - ';
+        lokasiLantaiDisplay.textContent = ' - ';
+        lokasiRuanganDisplay.textContent = ' - ';
         formTambahEdit.style.display = 'none';
         btnTambah.style.display = 'inline-block';
         formLaporan.action = '<?= base_url('/laporan/simpan') ?>';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // currentPerangkatData akan menyimpan detail perangkat yang dipilih
         let currentPerangkatData = null;
 
         idPerangkatSelect.addEventListener('change', function() {
             const perangkatId = this.value;
 
-            // Selalu reset display dan hidden input saat perangkat berubah atau dipilih ulang
             idRuanganTerpilihInput.value = '';
-            lokasiGedungDisplay.textContent = '';
-            lokasiLantaiDisplay.textContent = 'N/A';
-            lokasiRuanganDisplay.textContent = 'N/A';
-            currentPerangkatData = null; // Reset data perangkat
+            lokasiGedungDisplay.textContent = ' - ';
+            lokasiLantaiDisplay.textContent = ' - ';
+            lokasiRuanganDisplay.textContent = ' - ';
+            currentPerangkatData = null; 
 
             if (perangkatId) {
-                // Fetch detail perangkat (termasuk lokasi) dari API
+                // Fetch detail perangkat dari API
                 fetch(`<?= base_url('/api/perangkat/') ?>/${perangkatId}`)
                     .then(res => {
                         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -199,17 +196,16 @@
                             idRuanganTerpilihInput.value = currentPerangkatData.id_ruangan;
 
                             // Update elemen display untuk feedback pengguna
-                            lokasiGedungDisplay.textContent = currentPerangkatData.nama_gedung || 'N/A';
-                            lokasiLantaiDisplay.textContent = currentPerangkatData.nama_lantai || 'N/A';
-                            lokasiRuanganDisplay.textContent = currentPerangkatData.nama_ruangan || 'N/A';
+                            lokasiGedungDisplay.textContent = currentPerangkatData.nama_gedung || ' - ';
+                            lokasiLantaiDisplay.textContent = currentPerangkatData.nama_lantai || ' - ';
+                            lokasiRuanganDisplay.textContent = currentPerangkatData.nama_ruangan || ' - ';
 
                         } else {
                             Swal.fire('Info', response.message || 'Detail perangkat tidak ditemukan.', 'info');
-                            // Pastikan reset jika tidak ditemukan
                             idRuanganTerpilihInput.value = '';
-                            lokasiGedungDisplay.textContent = '';
-                            lokasiLantaiDisplay.textContent = 'N/A';
-                            lokasiRuanganDisplay.textContent = 'N/A';
+                            lokasiGedungDisplay.textContent = ' - ';
+                            lokasiLantaiDisplay.textContent = ' - ';
+                            lokasiRuanganDisplay.textContent = ' - ';
                         }
                     })
                     .catch(error => {
@@ -217,9 +213,9 @@
                         Swal.fire('Error', 'Gagal memuat detail lokasi perangkat. Pastikan API endpoint dan data di database sudah benar.', 'error');
                         // Reset on error
                         idRuanganTerpilihInput.value = '';
-                        lokasiGedungDisplay.textContent = '';
-                        lokasiLantaiDisplay.textContent = 'N/A';
-                        lokasiRuanganDisplay.textContent = 'N/A';
+                        lokasiGedungDisplay.textContent = ' - ';
+                        lokasiLantaiDisplay.textContent = ' - ';
+                        lokasiRuanganDisplay.textContent = ' - ';
                     });
             }
         });
@@ -288,9 +284,9 @@
                         deskripsiTextarea.value = dataLaporanEdit.deskripsi;
 
                         idRuanganTerpilihInput.value = dataLaporanEdit.id_ruangan || '';
-                        lokasiGedungDisplay.textContent = dataLaporanEdit.nama_gedung || 'N/A';
-                        lokasiLantaiDisplay.textContent = dataLaporanEdit.nama_lantai || 'N/A';
-                        lokasiRuanganDisplay.textContent = dataLaporanEdit.nama_ruangan || 'N/A';
+                        lokasiGedungDisplay.textContent = dataLaporanEdit.nama_gedung || ' - ';
+                        lokasiLantaiDisplay.textContent = dataLaporanEdit.nama_lantai || ' - ';
+                        lokasiRuanganDisplay.textContent = dataLaporanEdit.nama_ruangan || ' - ';
 
                         const event = new Event('change');
                         idPerangkatSelect.dispatchEvent(event);

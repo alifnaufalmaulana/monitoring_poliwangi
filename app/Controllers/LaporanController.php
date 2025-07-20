@@ -29,16 +29,15 @@ class LaporanController extends BaseController
         $this->kebencanaanModel = new KebencanaanModel();
     }
 
-    // List semua laporan (Read)
+    // Menampilkan halaman laporan dengan data lokasi dan laporan
     public function index()
     {
-        // Mengambil data laporan dengan join ke tabel terkait untuk menampilkan nama lokasi
         $laporan = $this->laporanModel
             ->select('laporan.*, 
                       perangkat.nama_perangkat,
                       ruangan.nama_ruangan,    
                       lantai.nama_lantai,      
-                      gedung.nama_gedung')     // Komentar dihapus dari sini
+                      gedung.nama_gedung')
             ->join('perangkat', 'perangkat.id_perangkat = laporan.id_perangkat', 'left')
             ->join('ruangan', 'ruangan.id_ruangan = perangkat.id_ruangan', 'left')
             ->join('lantai', 'lantai.id_lantai = ruangan.id_lantai', 'left')
@@ -60,21 +59,20 @@ class LaporanController extends BaseController
         return view('laporan', $data);
     }
 
-    // Metode untuk menangani simpan data baru atau update data yang sudah ada
+    // Simpan laporan baru atau update jika id_laporan ada
     public function simpan()
     {
         $id_laporan = $this->request->getPost('id_laporan');
 
-        // Aturan validasi
+        // Validasi input form
         $rules = [
             'id_perangkat'   => 'required|integer',
-            'nama_bencana'  => 'required|string|max_length[255]',
+            'nama_bencana'   => 'required|string|max_length[255]',
             'status_bencana' => 'required|string|max_length[50]',
             'deskripsi'      => 'required|string',
         ];
 
         if (!$this->validate($rules)) {
-            // Jika validasi gagal, kembalikan error JSON
             return $this->response->setJSON([
                 'status'  => 'error',
                 'message' => 'Validasi Gagal!',
@@ -84,30 +82,29 @@ class LaporanController extends BaseController
 
         $dataToSave = [
             'id_perangkat'   => $this->request->getPost('id_perangkat'),
-            'nama_bencana'  => $this->request->getPost('nama_bencana'),
+            'nama_bencana'   => $this->request->getPost('nama_bencana'),
             'status_bencana' => $this->request->getPost('status_bencana'),
             'deskripsi'      => $this->request->getPost('deskripsi'),
         ];
 
         if (empty($id_laporan)) {
-            // Jika id_laporan kosong, berarti ini adalah data baru (tambah)
+            // Tambah laporan baru
             $this->laporanModel->insert($dataToSave);
             return $this->response->setJSON([
                 'status'  => 'success',
                 'message' => 'Laporan berhasil ditambahkan!'
             ]);
         } else {
-            // Jika id_laporan ada, berarti ini adalah update
+            // Update laporan jika ID ada
             return $this->update($id_laporan);
         }
     }
 
-    // Mengambil data laporan tunggal untuk ditampilkan di form edit
+    // Mengambil satu laporan untuk keperluan edit
     public function edit($id_laporan)
     {
         $laporan = $this->laporanModel
-            ->select('laporan.*, 
-                      perangkat.nama_perangkat, ')
+            ->select('laporan.*, perangkat.nama_perangkat')
             ->join('perangkat', 'perangkat.id_perangkat = laporan.id_perangkat')
             ->find($id_laporan);
 
@@ -121,13 +118,13 @@ class LaporanController extends BaseController
         }
     }
 
-    // Metode untuk update data laporan (dipanggil dari simpan() jika id_laporan ada)
+    // Memperbarui data laporan
     public function update($id_laporan)
     {
         // Validasi sudah dilakukan di method simpan()
         $dataToUpdate = [
             'id_perangkat'   => $this->request->getPost('id_perangkat'),
-            'nama_bencana'  => $this->request->getPost('nama_bencana'),
+            'nama_bencana'   => $this->request->getPost('nama_bencana'),
             'status_bencana' => $this->request->getPost('status_bencana'),
             'deskripsi'      => $this->request->getPost('deskripsi'),
         ];
@@ -139,7 +136,7 @@ class LaporanController extends BaseController
         ]);
     }
 
-    // Hapus laporan (Delete)
+    // Menghapus data laporan
     public function hapus($id_laporan)
     {
         if ($this->laporanModel->delete($id_laporan)) {

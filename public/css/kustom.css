@@ -31,3 +31,20 @@ main {
 footer {
   flex-shrink: 0;
 }
+
+/* Container toast di pojok kanan atas */
+.swal2-container.swal2-top-end {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5em; /* jarak antar toast */
+  top: 1em !important;
+  right: 1em !important;
+}
+
+/* Membuat toast tidak absolut supaya bisa tumpuk */
+.swal2-toast {
+  margin: 0 !important;
+  position: relative !important;
+  width: 300px !important; /* Atur lebar toast */
+}

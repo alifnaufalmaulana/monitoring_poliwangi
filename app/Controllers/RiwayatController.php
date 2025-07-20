@@ -8,14 +8,15 @@ use App\Models\GedungModel;
 use App\Models\KebencanaanModel;
 use App\Models\LantaiModel;
 use App\Models\RuanganModel;
-use App\Models\PerangkatModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class RiwayatController extends BaseController
 {
     public function index()
     {
+        // Ambil parameter filter dari URL (GET)
         $filters = $this->request->getGet();
+
         $riwayatModel = new RiwayatModel();
         $kebencanaanModel = new KebencanaanModel();
 
@@ -25,10 +26,8 @@ class RiwayatController extends BaseController
             'gedung'       => (new GedungModel())->findAll(),
             'lantai'       => (new LantaiModel())->findAll(),
             'ruangan'      => (new RuanganModel())->findAll(),
-            // hanya ambil jenis bencana unik untuk dropdown
             'kebencanaan'  => $kebencanaanModel->getJenisBencanaUnik(),
             'filters'      => $filters,
-
         ];
 
         return view('riwayat', $data);
