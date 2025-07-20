@@ -105,7 +105,7 @@
         attribution: 'Google',
     }).addTo(map);
 
-    const gedungMarkers = <?= json_encode($gedung) ?>;
+    const gedungMarkers = <?= json_encode($petaGedung) ?>;
     const gedungMarkerMap = {};
     console.log(gedungMarkers);
 
@@ -137,6 +137,8 @@
             `<b>${g.nama_gedung}</b><br><button onclick="showDenah(${g.id_gedung}, '${g.nama_gedung}')">Lihat Denah</button>`;
 
         marker.bindPopup(popupHtml);
+        console.log(g.id_gedung, g.nama_gedung, g.denah);
+
     });
 
     const modal = document.getElementById('modal2D');
@@ -242,6 +244,7 @@
     }
 
     function lihatTower(id, nama, denah) {
+        console.log("lihatTower dipanggil", id, nama, denah);
         document.getElementById('towerTitle').textContent = `Menara: ${nama}`;
 
         const imagePath = '<?= base_url('aset/denah/'); ?>' + denah;

@@ -17,7 +17,7 @@ class Home extends BaseController
 
         // Ambil semua gedung
         $dataGedung = $gedungModel
-            ->select('gedung.id_gedung, gedung.nama_gedung, gedung.latitude, gedung.longitude, gedung.tipe')
+            ->select('gedung.id_gedung, gedung.nama_gedung, gedung.latitude, gedung.longitude, gedung.tipe, gedung.denah')
             ->findAll();
 
         foreach ($dataGedung as &$gedung) {
@@ -63,7 +63,7 @@ class Home extends BaseController
 
         $data = [
             'judul'  => 'Peta Dashboard',
-            'gedung' => $dataGedung,
+            'petaGedung' => $dataGedung,
         ];
 
         return view('dashboard', $data);

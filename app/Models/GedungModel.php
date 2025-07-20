@@ -12,7 +12,7 @@ class GedungModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['nama_gedung', 'deskripsi', 'latitude', 'longitude', 'denah',];
+    protected $allowedFields    = ['nama_gedung', 'deskripsi', 'tipe', 'denah',];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
